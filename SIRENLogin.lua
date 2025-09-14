@@ -63,7 +63,7 @@ KeyTab:AddKeyBox(function(Success, RecivedKey)
         Library:Notify("Correct Key!", 5) 
         task.delay(1, function()
             Library:Unload()  
-            loadstring(game:HttpGet("https://rscripts.net/raw/obsidian-ui-lib_1752676149035_ffqzut7cUx.txt", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/sirenhub/refs/heads/main/SIRENMenu.lua", true))()
         end)
     else
         Library:Notify("Incorrect Key! " .. tostring(dataOrMsg), 5) 
