@@ -38,7 +38,8 @@ local Window = Library:CreateWindow({
 -- You can find more icons in https://lucide.dev/
 local Tabs = {
 	-- Creates a new tab titled Main
-	Main = Window:AddTab("Main", "user"),
+	Information = Window:AddTab("Information", "info"),
+	Main = Window:AddTab("Players", "info"),
 	-- Key = Window:AddKeyTab("Key System"),
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
@@ -57,9 +58,27 @@ WarningTab:UpdateWarningBox({
 
 ]]
 
+local LeftGroupBox2 = Tabs.Information:AddLeftGroupbox("Your License")
+
+-- Ambil data dari login
+local data = _G.SIREN_Data or {}
+local Key = data.Key or "Unknown"
+local HWID = data.HWID or "Unknown"
+local RobloxUser = data.RobloxUser or "Unknown"
+local RobloxID = data.RobloxID or "Unknown"
+
+LeftGroupBox2:AddLabel(
+    "Your Key: " .. Key ..
+    "\nHWID: " .. HWID ..
+    "\nRoblox Username: " .. RobloxUser ..
+    "\nRoblox ID: " .. RobloxID,
+    true
+)
+
+
 -- Groupbox and Tabbox inherit the same functions
 -- except Tabboxes you have to call the functions on a tab (Tabbox:AddTab(Name))
-local LeftGroupBox = Tabs.Main:AddLeftGroupbox("Groupbox", "boxes")
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox("Character", "boxes")
 
 -- We can also get our Main tab via the following code:
 -- local LeftGroupBox = Window.Tabs.Main:AddLeftGroupbox("Groupbox", "boxes")
@@ -79,7 +98,7 @@ local Tab2 = TabBox:AddTab("Tab 2")
 -- Arguments: Index, Options
 LeftGroupBox:AddToggle("MyToggle", {
 	Text = "This is a toggle",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the toggle
+	Tooltip = "On Off", -- Information shown when you hover over the toggle
 	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the toggle while it's disabled
 
 	Default = true, -- Default value (true / false)
@@ -91,23 +110,6 @@ LeftGroupBox:AddToggle("MyToggle", {
 		print("[cb] MyToggle changed to:", Value)
 	end,
 })
-	:AddColorPicker("ColorPicker1", {
-		Default = Color3.new(1, 0, 0),
-		Title = "Some color1", -- Optional. Allows you to have a custom color picker title (when you open it)
-		Transparency = 0, -- Optional. Enables transparency changing for this color picker (leave as nil to disable)
-
-		Callback = function(Value)
-			print("[cb] Color changed!", Value)
-		end,
-	})
-	:AddColorPicker("ColorPicker2", {
-		Default = Color3.new(0, 1, 0),
-		Title = "Some color2",
-
-		Callback = function(Value)
-			print("[cb] Color changed!", Value)
-		end,
-	})
 
 -- Fetching a toggle object for later use:
 -- Toggles.MyToggle.Value

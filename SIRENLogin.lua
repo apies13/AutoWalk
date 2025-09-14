@@ -10,26 +10,25 @@ local Window = Library:CreateWindow({
     Size = UDim2.fromOffset(700, 500) -- size of ui
 })
 
-local KeyTab = Window:AddKeyTab("Login") -- use addkeytab because this will be for our key box
-local InfoTab = Window:AddTab("Info", "info") -- this will be for how to get key
+local KeyTab = Window:AddKeyTab("Login")
+local InfoTab = Window:AddTab("Info", "info")
 local Analytics = game:GetService("RbxAnalyticsService")
 local HttpService = game:GetService("HttpService")
-local hwid = Analytics:GetClientId()
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
+
+local hwid = Analytics:GetClientId()
 local username = player and player.Name or "Unknown"
 local userid = player and player.UserId or "Unknown"
 
-
 KeyTab:AddLabel({
-	Text = "Welcome To\nSIRENHUB",
-	DoesWrap = true,
-	Size = 36,
+    Text = "Welcome To\nSIRENHUB",
+    DoesWrap = true,
+    Size = 36,
 })
 
 local function ValidateKey(Key)
     local Url = "https://sirenpedia.site/check.php?key=" .. Key .. "&hwid=" .. hwid
-
     local success, response = pcall(function()
         return game:HttpGet(Url, true)
     end)
@@ -54,32 +53,38 @@ local function ValidateKey(Key)
     end
 end
 
--- Mengubah bagian AddKeyBox
 KeyTab:AddKeyBox(function(Success, RecivedKey)
-    -- RecivedKey adalah input user dari TextBox
     local isValid, dataOrMsg = ValidateKey(RecivedKey)
 
     if isValid then
-        Library:Notify("Correct Key!", 5) 
+        Library:Notify("Correct Key!", 5)
+        
+        -- Simpan data yang akan dipakai SIRENMenu.lua
+        _G.SIREN_Data = {
+            Key = RecivedKey,
+            HWID = hwid,
+            RobloxUser = username,
+            RobloxID = userid,
+            ServerData = dataOrMsg -- data dari server jika perlu
+        }
+
         task.delay(1, function()
-            Library:Unload()  
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/sirenhub/refs/heads/main/SIRENMenu.lua?token=GHSAT0AAAAAADLE2XYJVFHLC6BG2YBXAZJC2GHCZPQ", true))()
+            Library:Unload()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/sirenhub/refs/heads/main/SIRENMenu.lua", true))()
         end)
     else
-        Library:Notify("Incorrect Key! " .. tostring(dataOrMsg), 5) 
+        Library:Notify("Incorrect Key! " .. tostring(dataOrMsg), 5)
     end
 end)
-
-
 
 KeyTab:AddButton({
     Text = "Don't have the key? Go to the <font color='rgb(0, 195, 255)'>Info</font> Tab!",
     Func = function()
-        -- buka tab Info
         Window:SelectTab(InfoTab)
     end,
     DoubleClick = false
 })
+
 
 
 local LeftGroupbox = InfoTab:AddLeftGroupbox("How To Get Key", "key")
