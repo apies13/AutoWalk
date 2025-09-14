@@ -65,7 +65,8 @@ KeyTab:AddKeyBox(function(Success, RecivedKey)
             HWID = hwid,
             RobloxUser = username,
             RobloxID = userid,
-            ServerData = dataOrMsg -- data dari server jika perlu
+            ExpireAt = dataOrMsg.expire_at or "Unknown", -- Ambil dari response server
+            ServerData = dataOrMsg -- jika perlu data tambahan
         }
 
         task.delay(1, function()

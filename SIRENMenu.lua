@@ -66,14 +66,17 @@ local Key = data.Key or "Unknown"
 local HWID = data.HWID or "Unknown"
 local RobloxUser = data.RobloxUser or "Unknown"
 local RobloxID = data.RobloxID or "Unknown"
+local ExpireAt = data.ExpireAt or "Unknown"
 
 LeftGroupBox2:AddLabel(
     "Your Key: " .. Key ..
     "\nHWID: " .. HWID ..
     "\nRoblox Username: " .. RobloxUser ..
-    "\nRoblox ID: " .. RobloxID,
+    "\nRoblox ID: " .. RobloxID ..
+    "\nExpired At: " .. ExpireAt,
     true
 )
+
 
 
 -- Groupbox and Tabbox inherit the same functions
