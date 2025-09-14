@@ -66,12 +66,13 @@ KeyTab:AddKeyBox(function(Success, RecivedKey)
             RobloxUser = username,
             RobloxID = userid,
             ExpireAt = dataOrMsg.expire_at or "Unknown", -- Ambil dari response server
+            Level = dataOrMsg.status or "Unknown", -- Ambil dari response server
             ServerData = dataOrMsg -- jika perlu data tambahan
         }
 
         task.delay(1, function()
             Library:Unload()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/sirenhub/refs/heads/main/SIRENMenu.lua", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/sirenhub/refs/heads/main/SIRENMenu.lua?token=GHSAT0AAAAAADLE2XYIXA2QXOOJDY6C6L6Q2GHEGQQ", true))()
         end)
     else
         Library:Notify("Incorrect Key! " .. tostring(dataOrMsg), 5)

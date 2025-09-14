@@ -66,6 +66,7 @@ local Key = data.Key or "Unknown"
 local HWID = data.HWID or "Unknown"
 local RobloxUser = data.RobloxUser or "Unknown"
 local RobloxID = data.RobloxID or "Unknown"
+local Level = data.Level or "Unknown"
 local ExpireAt = data.ExpireAt or "Unknown"
 
 LeftGroupBox2:AddLabel(
@@ -73,7 +74,8 @@ LeftGroupBox2:AddLabel(
     "\nHWID: " .. HWID ..
     "\nRoblox Username: " .. RobloxUser ..
     "\nRoblox ID: " .. RobloxID ..
-    "\nExpired At: " .. ExpireAt,
+	"\n\nLevel: " .. Level ..
+	"\nExpired At: " .. ExpireAt,"
     true
 )
 
@@ -81,7 +83,7 @@ LeftGroupBox2:AddLabel(
 
 -- Groupbox and Tabbox inherit the same functions
 -- except Tabboxes you have to call the functions on a tab (Tabbox:AddTab(Name))
-local LeftGroupBox = Tabs.Main:AddLeftGroupbox("Character", "boxes")
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox("Fly Mode", "boxes")
 
 -- We can also get our Main tab via the following code:
 -- local LeftGroupBox = Window.Tabs.Main:AddLeftGroupbox("Groupbox", "boxes")
@@ -99,71 +101,97 @@ local Tab2 = TabBox:AddTab("Tab 2")
 
 -- Groupbox:AddToggle
 -- Arguments: Index, Options
-LeftGroupBox:AddToggle("MyToggle", {
-	Text = "This is a toggle",
-	Tooltip = "On Off", -- Information shown when you hover over the toggle
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the toggle while it's disabled
+_G.flySpeed = 50
+_G.flyActive = false
 
-	Default = true, -- Default value (true / false)
-	Disabled = false, -- Will disable the toggle (true / false)
-	Visible = true, -- Will make the toggle invisible (true / false)
-	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
+-- Toggle Fly
+local FlyToggle = LeftGroupBox:AddToggle("FlyToggle", {
+    Text = "Fly",
+    Tooltip = "Activate or deactivate fly mode",
+    Default = false,
+    Callback = function(Value)
+        _G.flyActive = Value
 
-	Callback = function(Value)
-		print("[cb] MyToggle changed to:", Value)
-	end,
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local root = character:WaitForChild("HumanoidRootPart")
+
+        if Value then
+            Library:Notify("Fly Mode Activated!", 5)
+
+            local BodyGyro = Instance.new("BodyGyro")
+            local BodyVel = Instance.new("BodyVelocity")
+
+            BodyGyro.P = 9e4
+            BodyGyro.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+            BodyGyro.CFrame = root.CFrame
+            BodyGyro.Parent = root
+
+            BodyVel.Velocity = Vector3.new(0, 0, 0)
+            BodyVel.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+            BodyVel.Parent = root
+
+            _G.flyLoop = game:GetService("RunService").Heartbeat:Connect(function()
+                if not _G.flyActive then return end
+                local camera = workspace.CurrentCamera
+                local control = Vector3.new()
+
+                if game.UserInputService:IsKeyDown(Enum.KeyCode.W) then
+                    control = control + camera.CFrame.LookVector
+                end
+                if game.UserInputService:IsKeyDown(Enum.KeyCode.S) then
+                    control = control - camera.CFrame.LookVector
+                end
+                if game.UserInputService:IsKeyDown(Enum.KeyCode.A) then
+                    control = control - camera.CFrame.RightVector
+                end
+                if game.UserInputService:IsKeyDown(Enum.KeyCode.D) then
+                    control = control + camera.CFrame.RightVector
+                end
+                if game.UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+                    control = control + camera.CFrame.UpVector
+                end
+                if game.UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+                    control = control - camera.CFrame.UpVector
+                end
+
+                BodyVel.Velocity = control * _G.flySpeed
+                BodyGyro.CFrame = camera.CFrame
+            end)
+        else
+            Library:Notify("Fly Mode Deactivated!", 5)
+
+            if _G.flyLoop then
+                _G.flyLoop:Disconnect()
+                _G.flyLoop = nil
+            end
+
+            for _, v in pairs(root:GetChildren()) do
+                if v:IsA("BodyGyro") or v:IsA("BodyVelocity") then
+                    v:Destroy()
+                end
+            end
+        end
+    end,
 })
 
--- Fetching a toggle object for later use:
--- Toggles.MyToggle.Value
-
--- Toggles is a table added to getgenv() by the library
--- You index Toggles with the specified index, in this case it is 'MyToggle'
--- To get the state of the toggle you do toggle.Value
-
--- Calls the passed function when the toggle is updated
-Toggles.MyToggle:OnChanged(function()
-	-- here we get our toggle object & then get its value
-	print("MyToggle changed to:", Toggles.MyToggle.Value)
-end)
-
--- This should print to the console: "My toggle state changed! New value: false"
-Toggles.MyToggle:SetValue(false)
-
-LeftGroupBox:AddCheckbox("MyCheckbox", {
-	Text = "This is a checkbox",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the toggle
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the toggle while it's disabled
-
-	Default = true, -- Default value (true / false)
-	Disabled = false, -- Will disable the toggle (true / false)
-	Visible = true, -- Will make the toggle invisible (true / false)
-	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
-
-	Callback = function(Value)
-		print("[cb] MyCheckbox changed to:", Value)
-	end,
+-- Slider Fly Speed
+local FlySlider = LeftGroupBox:AddSlider("FlySpeedSlider", {
+    Text = "Fly Speed",
+    Default = 50,
+    Min = 0,
+    Max = 200,
+    Rounding = 1,
+    Tooltip = "Adjust fly speed",
+    Callback = function(Value)
+        _G.flySpeed = Value
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Fly Speed set to " .. Value,
+            Duration = 3
+        })
+    end,
 })
-
-Toggles.MyCheckbox:OnChanged(function()
-	print("MyCheckbox changed to:", Toggles.MyCheckbox.Value)
-end)
-
--- 1/15/23
--- Deprecated old way of creating buttons in favor of using a table
--- Added DoubleClick button functionality
-
---[[
-	Groupbox:AddButton
-	Arguments: {
-		Text = string,
-		Func = function,
-		DoubleClick = boolean
-		Tooltip = string,
-	}
-
-	You can call :AddButton on a button to add a SubButton!
-]]
 
 local MyButton = LeftGroupBox:AddButton({
 	Text = "Button",
