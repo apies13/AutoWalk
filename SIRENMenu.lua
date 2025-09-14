@@ -39,7 +39,8 @@ local Window = Library:CreateWindow({
 local Tabs = {
 	-- Creates a new tab titled Main
 	Information = Window:AddTab("Information", "info"),
-	Main = Window:AddTab("Players", "info"),
+	Main = Window:AddTab("Players", "user"),
+	Teleports = Window:AddTab("Teleport", "box"),
 	-- Key = Window:AddKeyTab("Key System"),
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
@@ -58,58 +59,122 @@ WarningTab:UpdateWarningBox({
 
 ]]
 
-local LeftGroupBox2 = Tabs.Information:AddLeftGroupbox("Your License")
+-- Groupbox Kiri: License Info
+local LeftGroupBox = Tabs.Information:AddLeftGroupbox("Your License")
 
 -- Ambil data dari login
 local data = _G.SIREN_Data or {}
 local Key = data.Key or "Unknown"
 local HWID = data.HWID or "Unknown"
-local RobloxUser = data.RobloxUser or "Unknown"
-local RobloxID = data.RobloxID or "Unknown"
 local ExpireAt = data.ExpireAt or "Unknown"
-local Level = data.Level or "Unknown"
 
-LeftGroupBox2:AddLabel(
+LeftGroupBox:AddLabel(
     "Your Key: " .. Key ..
     "\nHWID: " .. HWID ..
-    "\nRoblox Username: " .. RobloxUser ..
-    "\nRoblox ID: " .. RobloxID ..
-    "\nLevel: " .. Level ..
-    "\nExpired At: " .. ExpireAt,
+    "\n\nExpired At: " .. ExpireAt,
     true
 )
 
+-- Groupbox Kanan: Roblox Info & Level
+local RightGroupBox = Tabs.Information:AddRightGroupbox("Your Account Info")
+
+local RobloxUser = data.RobloxUser or "Unknown"
+local RobloxID = data.RobloxID or "Unknown"
+local Level = data.Level or "Free"
+
+RightGroupBox:AddLabel(
+    "Level: " .. Level ..
+    "\n\nRoblox Username: " .. RobloxUser ..
+    "\nRoblox ID: " .. RobloxID,
+    true
+)
+
+
 -- Groupbox and Tabbox inherit the same functions
 -- except Tabboxes you have to call the functions on a tab (Tabbox:AddTab(Name))
-local LeftGroupBox = Tabs.Main:AddLeftGroupbox("Fly Mode", "boxes")
+local TabBox = Tabs.Main:AddLeftTabbox() -- Add Tabbox on right side
 
--- We can also get our Main tab via the following code:
--- local LeftGroupBox = Window.Tabs.Main:AddLeftGroupbox("Groupbox", "boxes")
+-- ===============================
+-- Tab 1: WalkSpeed
+-- ===============================
+local WalkTab = TabBox:AddTab("WalkSpeed")
 
--- Tabboxes are a tiny bit different, but here's a basic example:
---[[
+-- Default WalkSpeed
+_G.CustomWalkSpeed = 16
+_G.walkActive = false
 
-local TabBox = Tabs.Main:AddLeftTabbox() -- Add Tabbox on left side
+-- Toggle WalkSpeed Enable
+WalkTab:AddToggle("WalkToggle", {
+    Text = "Walkspeed",
+    Tooltip = "Activate or deactivate custom walkspeed",
+    Default = false,
+    Callback = function(Value)
+        _G.walkActive = Value
+        local player = game.Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if hum then
+            if Value then
+                hum.WalkSpeed = _G.CustomWalkSpeed
+                Library:Notify("Custom WalkSpeed Activated!", 5)
+            else
+                hum.WalkSpeed = 16
+                Library:Notify("Custom WalkSpeed Deactivated!", 5)
+            end
+        end
+    end,
+})
 
-local Tab1 = TabBox:AddTab("Tab 1")
-local Tab2 = TabBox:AddTab("Tab 2")
+-- Slider WalkSpeed
+WalkTab:AddSlider("WalkSpeedSlider", {
+    Text = "Walkspeed Range",
+    Default = 16,
+    Min = 16,
+    Max = 200,
+    Rounding = 1,
+    Tooltip = "Adjust walkspeed",
+    Callback = function(Value)
+        _G.CustomWalkSpeed = Value
+        local player = game.Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if hum and _G.walkActive then
+            hum.WalkSpeed = Value
+        end
 
--- You can now call AddToggle, etc on the tabs you added to the Tabbox
-]]
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Walk Speed set to " .. Value,
+            Duration = 3
+        })
+    end,
+})
 
--- Groupbox:AddToggle
--- Arguments: Index, Options
+-- Reset WalkSpeed saat respawn
+game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
+    local hum = char:WaitForChild("Humanoid")
+    if _G.walkActive then
+        hum.WalkSpeed = _G.CustomWalkSpeed or 16
+    else
+        hum.WalkSpeed = 16
+    end
+end)
+
+-- ===============================
+-- Tab 2: Fly Mode
+-- ===============================
+local FlyTab = TabBox:AddTab("Fly Mode")
+
 _G.flySpeed = 50
 _G.flyActive = false
 
 -- Toggle Fly
-local FlyToggle = LeftGroupBox:AddToggle("FlyToggle", {
+FlyTab:AddToggle("FlyToggle", {
     Text = "Fly",
     Tooltip = "Activate or deactivate fly mode",
     Default = false,
     Callback = function(Value)
         _G.flyActive = Value
-
         local player = game.Players.LocalPlayer
         local character = player.Character or player.CharacterAdded:Wait()
         local root = character:WaitForChild("HumanoidRootPart")
@@ -174,7 +239,7 @@ local FlyToggle = LeftGroupBox:AddToggle("FlyToggle", {
 })
 
 -- Slider Fly Speed
-local FlySlider = LeftGroupBox:AddSlider("FlySpeedSlider", {
+FlyTab:AddSlider("FlySpeedSlider", {
     Text = "Fly Speed",
     Default = 50,
     Min = 0,
@@ -191,65 +256,103 @@ local FlySlider = LeftGroupBox:AddSlider("FlySpeedSlider", {
     end,
 })
 
-local MyButton = LeftGroupBox:AddButton({
-	Text = "Button",
-	Func = function()
-		print("You clicked a button!")
-	end,
-	DoubleClick = false,
+local RightGroupBox = Tabs.Main:AddRightGroupbox("Character", "boxes")
 
-	Tooltip = "This is the main button",
-	DisabledTooltip = "I am disabled!",
+-- ========================================
+-- Infinite Jump Toggle
+-- ========================================
+_G.InfiniteJumpEnabled = false
+if not _G.InfiniteJumpConnection then
+    local UserInputService = game:GetService("UserInputService")
+    _G.InfiniteJumpConnection = UserInputService.JumpRequest:Connect(function()
+        if _G.InfiniteJumpEnabled then
+            local plr = game.Players.LocalPlayer
+            local char = plr.Character or plr.CharacterAdded:Wait()
+            local humanoid = char:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end
+    end)
+end
 
-	Disabled = false, -- Will disable the button (true / false)
-	Visible = true, -- Will make the button invisible (true / false)
-	Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
+local InfiniteJumpToggle = RightGroupBox:AddToggle("InfiniteJumpToggle", {
+    Text = "Infinite Jump",
+    Tooltip = "Enable infinite jumping",
+    Default = false,
+    Callback = function(Value)
+        _G.InfiniteJumpEnabled = Value
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = Value and "Infinite Jump Activated!" or "Infinite Jump Deactivated!",
+            Duration = 5
+        })
+    end,
 })
 
-local MyButton2 = MyButton:AddButton({
-	Text = "Sub button",
-	Func = function()
-		print("You clicked a sub button!")
-	end,
-	DoubleClick = true, -- You will have to click this button twice to trigger the callback
-	Tooltip = "This is the sub button",
-	DisabledTooltip = "I am disabled!",
+-- ========================================
+-- Invisible Toggle
+-- ========================================
+local function setTransparency(character, transparency)
+    for _, part in pairs(character:GetDescendants()) do
+        if part:IsA("BasePart") or part:IsA("Decal") then
+            part.Transparency = transparency
+        end
+    end
+end
+
+local function toggleInvisibility(on)
+    local player = game.Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+    if not char then return end
+
+    if on then
+        local savedpos = char.HumanoidRootPart.CFrame
+        char:MoveTo(Vector3.new(-25.95, 84, 3537.55))
+        task.wait(0.15)
+
+        local Seat = Instance.new("Seat", workspace)
+        Seat.Anchored = false
+        Seat.CanCollide = false
+        Seat.Name = "invischair"
+        Seat.Transparency = 1
+        Seat.Position = Vector3.new(-25.95, 84, 3537.55)
+
+        local weld = Instance.new("Weld", Seat)
+        weld.Part0 = Seat
+        weld.Part1 = char:FindFirstChild("Torso") or char:FindFirstChild("UpperTorso")
+
+        task.wait()
+        Seat.CFrame = savedpos
+
+        setTransparency(char, 0.5)
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Invisibility ON",
+            Duration = 3
+        })
+    else
+        local invisChair = workspace:FindFirstChild("invischair")
+        if invisChair then invisChair:Destroy() end
+        setTransparency(char, 0)
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Invisibility OFF",
+            Duration = 3
+        })
+    end
+end
+
+local InvisibleToggle = RightGroupBox:AddToggle("InvisibleToggle", {
+    Text = "Invisible",
+    Tooltip = "Enable client-side invisibility",
+    Default = false,
+    Callback = function(Value)
+        toggleInvisibility(Value)
+    end,
 })
 
-local MyDisabledButton = LeftGroupBox:AddButton({
-	Text = "Disabled Button",
-	Func = function()
-		print("You somehow clicked a disabled button!")
-	end,
-	DoubleClick = false,
-	Tooltip = "This is a disabled button",
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the button while it's disabled
-	Disabled = true,
-})
 
---[[
-	NOTE: You can chain the button methods!
-	EXAMPLE:
-
-	LeftGroupBox:AddButton({ Text = 'Kill all', Func = Functions.KillAll, Tooltip = 'This will kill everyone in the game!' })
-		:AddButton({ Text = 'Kick all', Func = Functions.KickAll, Tooltip = 'This will kick everyone in the game!' })
-]]
-
--- Groupbox:AddLabel
--- Arguments: Text, DoesWrap, Idx
--- Arguments: Idx, Options
-LeftGroupBox:AddLabel("This is a label")
-LeftGroupBox:AddLabel("This is a label\n\nwhich wraps its text!", true)
-LeftGroupBox:AddLabel("This is a label exposed to Labels", true, "TestLabel")
-LeftGroupBox:AddLabel("SecondTestLabel", {
-	Text = "This is a label made with table options and an index",
-	DoesWrap = true, -- Defaults to false
-})
-
-LeftGroupBox:AddLabel("SecondTestLabel", {
-	Text = "This is a label that doesn't wrap it's own text",
-	DoesWrap = false, -- Defaults to false
-})
 
 -- Options is a table added to getgenv() by the library
 -- You index Options with the specified index, in this case it is 'SecondTestLabel' & 'TestLabel'
@@ -286,359 +389,371 @@ LeftGroupBox:AddDivider()
 	HideMax will only display the value instead of the value & max value of the slider
 	Compact will do the same thing
 ]]
-LeftGroupBox:AddSlider("MySlider", {
-	Text = "This is my slider!",
-	Default = 0,
-	Min = 0,
-	Max = 5,
-	Rounding = 1,
-	Compact = false,
 
-	Callback = function(Value)
-		print("[cb] MySlider was changed! New value:", Value)
-	end,
+local RightGroupBox2 = Tabs.Main:AddRightGroupbox("ESP", "boxes")
 
-	Tooltip = "I am a slider!", -- Information shown when you hover over the slider
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the slider while it's disabled
+-- ========================================
+-- ESP Sense Custom Toggles
+-- ========================================
+_G.ESPSenseEnabled = false
 
-	Disabled = false, -- Will disable the slider (true / false)
-	Visible = true, -- Will make the slider invisible (true / false)
+-- Load library Sense
+local Sense = loadstring(game:HttpGet('https://sirius.menu/sense'))()
+
+-- Minimal shared config
+Sense.sharedSettings.textSize = 13
+Sense.sharedSettings.textFont = 2
+Sense.sharedSettings.limitDistance = false
+Sense.sharedSettings.maxDistance = 200
+Sense.sharedSettings.useTeamColor = false
+
+-- Enemy config
+local enemy = Sense.teamSettings.enemy
+enemy.enabled = false
+enemy.box = true
+enemy.name = true
+enemy.healthBar = true
+enemy.healthText = true
+enemy.distance = true
+enemy.tracer = true
+enemy.tracerOrigin = "Bottom"
+
+-- Load ESP initially
+Sense:Load()
+
+-- =======================
+-- ESP Toggles
+-- =======================
+local function UpdateESP()
+    if _G.ESPSenseEnabled then
+        enemy.enabled = true
+        Sense:Load()
+    else
+        enemy.enabled = false
+        Sense:Unload()
+    end
+end
+
+-- Main ESP Toggle
+local ESPSenseToggle = RightGroupBox2:AddToggle("ESPSenseToggle", {
+    Text = "ESP Sense",
+    Tooltip = "Enable or disable ESP Sense",
+    Default = false,
+    Callback = function(Value)
+        _G.ESPSenseEnabled = Value
+        UpdateESP()
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = Value and "ESP Sense Activated!" or "ESP Sense Deactivated!",
+            Duration = 5
+        })
+    end,
 })
 
--- Options is a table added to getgenv() by the library
--- You index Options with the specified index, in this case it is 'MySlider'
--- To get the value of the slider you do slider.Value
-
-local Number = Options.MySlider.Value
-Options.MySlider:OnChanged(function()
-	print("MySlider was changed! New value:", Options.MySlider.Value)
-end)
-
--- This should print to the console: "MySlider was changed! New value: 3"
-Options.MySlider:SetValue(3)
-
--- Groupbox:AddInput
--- Arguments: Idx, Info
-LeftGroupBox:AddInput("MyTextbox", {
-	Default = "My textbox!",
-	Numeric = false, -- true / false, only allows numbers
-	Finished = false, -- true / false, only calls callback when you press enter
-	ClearTextOnFocus = true, -- true / false, if false the text will not clear when textbox focused
-
-	Text = "This is a textbox",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the textbox
-
-	Placeholder = "Placeholder text", -- placeholder text when the box is empty
-	-- MaxLength is also an option which is the max length of the text
-
-	Callback = function(Value)
-		print("[cb] Text updated. New text:", Value)
-	end,
+-- Health Toggle
+local ESPHealthToggle = RightGroupBox2:AddToggle("ESPHealthToggle", {
+    Text = "ESP Health",
+    Tooltip = "Show/Hide enemy health",
+    Default = true,
+    Callback = function(Value)
+        enemy.healthBar = Value
+        enemy.healthText = Value
+        if _G.ESPSenseEnabled then Sense:Load() end
+    end,
 })
 
-Options.MyTextbox:OnChanged(function()
-	print("Text updated. New text:", Options.MyTextbox.Value)
-end)
-
--- Groupbox:AddDropdown
--- Arguments: Idx, Info
-
-local DropdownGroupBox = Tabs.Main:AddRightGroupbox("Dropdowns")
-
-DropdownGroupBox:AddDropdown("MyDropdown", {
-	Values = { "This", "is", "a", "dropdown" },
-	Default = 1, -- number index of the value / string
-	Multi = false, -- true / false, allows multiple choices to be selected
-
-	Text = "A dropdown",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the dropdown
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the dropdown while it's disabled
-
-	Searchable = false, -- true / false, makes the dropdown searchable (great for a long list of values)
-
-	Callback = function(Value)
-		print("[cb] Dropdown got changed. New value:", Value)
-	end,
-
-	Disabled = false, -- Will disable the dropdown (true / false)
-	Visible = true, -- Will make the dropdown invisible (true / false)
+-- Distance Toggle
+local ESPDistanceToggle = RightGroupBox2:AddToggle("ESPDistanceToggle", {
+    Text = "ESP Distance",
+    Tooltip = "Show/Hide distance to enemy",
+    Default = true,
+    Callback = function(Value)
+        enemy.distance = Value
+        if _G.ESPSenseEnabled then Sense:Load() end
+    end,
 })
 
-Options.MyDropdown:OnChanged(function()
-	print("Dropdown got changed. New value:", Options.MyDropdown.Value)
-end)
-
-Options.MyDropdown:SetValue("This")
-
-DropdownGroupBox:AddDropdown("MySearchableDropdown", {
-	Values = { "This", "is", "a", "searchable", "dropdown" },
-	Default = 1, -- number index of the value / string
-	Multi = false, -- true / false, allows multiple choices to be selected
-
-	Text = "A searchable dropdown",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the dropdown
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the dropdown while it's disabled
-
-	Searchable = true, -- true / false, makes the dropdown searchable (great for a long list of values)
-
-	Callback = function(Value)
-		print("[cb] Dropdown got changed. New value:", Value)
-	end,
-
-	Disabled = false, -- Will disable the dropdown (true / false)
-	Visible = true, -- Will make the dropdown invisible (true / false)
+-- Name Toggle
+local ESPNameToggle = RightGroupBox2:AddToggle("ESPNameToggle", {
+    Text = "ESP Name",
+    Tooltip = "Show/Hide enemy names",
+    Default = true,
+    Callback = function(Value)
+        enemy.name = Value
+        if _G.ESPSenseEnabled then Sense:Load() end
+    end,
 })
 
-DropdownGroupBox:AddDropdown("MyDisplayFormattedDropdown", {
-	Values = { "This", "is", "a", "formatted", "dropdown" },
-	Default = 1, -- number index of the value / string
-	Multi = false, -- true / false, allows multiple choices to be selected
-
-	Text = "A display formatted dropdown",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the dropdown
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the dropdown while it's disabled
-
-	FormatDisplayValue = function(Value) -- You can change the display value for any values. The value will be still same, only the UI changes.
-		if Value == "formatted" then
-			return "display formatted" -- formatted -> display formatted but in Options.MyDisplayFormattedDropdown.Value it will still return formatted if its selected.
-		end
-
-		return Value
-	end,
-
-	Searchable = false, -- true / false, makes the dropdown searchable (great for a long list of values)
-
-	Callback = function(Value)
-		print("[cb] Display formatted dropdown got changed. New value:", Value)
-	end,
-
-	Disabled = false, -- Will disable the dropdown (true / false)
-	Visible = true, -- Will make the dropdown invisible (true / false)
+-- Box Toggle
+local ESPBoxToggle = RightGroupBox2:AddToggle("ESPBoxToggle", {
+    Text = "ESP Box",
+    Tooltip = "Show/Hide boxes around enemy",
+    Default = true,
+    Callback = function(Value)
+        enemy.box = Value
+        if _G.ESPSenseEnabled then Sense:Load() end
+    end,
 })
 
--- Multi dropdowns
-DropdownGroupBox:AddDropdown("MyMultiDropdown", {
-	-- Default is the numeric index (e.g. "This" would be 1 since it if first in the values list)
-	-- Default also accepts a string as well
-
-	-- Currently you can not set multiple values with a dropdown
-
-	Values = { "This", "is", "a", "dropdown" },
-	Default = 1,
-	Multi = true, -- true / false, allows multiple choices to be selected
-
-	Text = "A multi dropdown",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the dropdown
-
-	Callback = function(Value)
-		print("[cb] Multi dropdown got changed:")
-		for key, value in next, Options.MyMultiDropdown.Value do
-			print(key, value) -- should print something like This, true
-		end
-	end,
+-- Line/Tracer Toggle
+local ESPLineToggle = RightGroupBox2:AddToggle("ESPLineToggle", {
+    Text = "ESP Line",
+    Tooltip = "Show/Hide tracer lines",
+    Default = true,
+    Callback = function(Value)
+        enemy.tracer = Value
+        if _G.ESPSenseEnabled then Sense:Load() end
+    end,
 })
 
-Options.MyMultiDropdown:SetValue({
-	This = true,
-	is = true,
+-- =========================
+-- Teleports
+-- =========================
+local LeftDropdownGroupBox = Tabs.Teleports:AddLeftGroupbox("Teleports 1", "boxes")
+local RightDropdownGroupBox = Tabs.Teleports:AddRightGroupbox("Teleports 2", "boxes")
+
+local function teleportTo(cframe)
+    local player = game.Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        char.HumanoidRootPart.CFrame = cframe
+    end
+end
+
+-- Function to check level before teleport
+local function canTeleport()
+    if Level == "Free" then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Free users cannot use teleport!",
+            Duration = 3
+        })
+        return false
+    end
+    return true
+end
+
+-- =========================
+-- LEFT GROUPBOX TELEPORTS
+-- =========================
+-- Mount Dombret
+LeftDropdownGroupBox:AddDropdown("DombretDropdown", {
+    Values = {"Spawn", "Summit"},
+    Default = 1,
+    Text = "Mount Dombret",
+    Tooltip = "Teleport Mount Dombret",
+    Callback = function(Value)
+        if not canTeleport() then return end
+        if Value == "Spawn" then
+            teleportTo(CFrame.new(489.839050, 120.997307, 762.160034))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(41.247673, 740.634216, 169.561218))
+        end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Teleported to " .. Value,
+            Duration = 3
+        })
+    end,
 })
 
-DropdownGroupBox:AddDropdown("MyDisabledDropdown", {
-	Values = { "This", "is", "a", "dropdown" },
-	Default = 1, -- number index of the value / string
-	Multi = false, -- true / false, allows multiple choices to be selected
-
-	Text = "A disabled dropdown",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the dropdown
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the dropdown while it's disabled
-
-	Callback = function(Value)
-		print("[cb] Disabled dropdown got changed. New value:", Value)
-	end,
-
-	Disabled = true, -- Will disable the dropdown (true / false)
-	Visible = true, -- Will make the dropdown invisible (true / false)
+-- Mount Sibuatan Anti Delay
+LeftDropdownGroupBox:AddDropdown("SibuatanAntiDelayDropdown", {
+    Values = {"Spawn", "Summit"},
+    Default = 1,
+    Text = "Mount Sibuatan AD",
+    Tooltip = "Teleport Mount Sibuatan Anti Delay",
+    Callback = function(Value)
+        if not canTeleport() then return end
+        if Value == "Spawn" then
+            teleportTo(CFrame.new(991.195984, 112.798019, -697.489807))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(5386.600586, 8109.058594, 2179.034424))
+        end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Teleported to " .. Value,
+            Duration = 3
+        })
+    end,
 })
 
-DropdownGroupBox:AddDropdown("MyDisabledValueDropdown", {
-	Values = { "This", "is", "a", "dropdown", "with", "disabled", "value" },
-	DisabledValues = { "disabled" }, -- Disabled Values that are unclickable
-	Default = 1, -- number index of the value / string
-	Multi = false, -- true / false, allows multiple choices to be selected
+-- Mount Sibuatan (with 30-minute cooldown)
+do
+    local cooldown = 30 * 60
+    local lastTeleport = 0
+    local CooldownLabel = LeftDropdownGroupBox:AddLabel("Cooldown: Ready ✅")
 
-	Text = "A dropdown with disabled value",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the dropdown
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the dropdown while it's disabled
+    task.spawn(function()
+        while task.wait(1) do
+            local now = tick()
+            local remaining = cooldown - (now - lastTeleport)
+            if remaining > 0 then
+                local minutes = math.floor(remaining / 60)
+                local seconds = math.floor(remaining % 60)
+                CooldownLabel:Set("Cooldown: Active " .. minutes .. "m " .. seconds .. "s")
+            else
+                CooldownLabel:Set("Cooldown: Ready ✅")
+            end
+        end
+    end)
 
-	Callback = function(Value)
-		print("[cb] Dropdown with disabled value got changed. New value:", Value)
-	end,
+    LeftDropdownGroupBox:AddDropdown("SibuatanDropdown", {
+        Values = {"Spawn", "Summit"},
+        Default = 1,
+        Text = "Mount Sibuatan",
+        Tooltip = "Teleport Mount Sibuatan",
+        Callback = function(Value)
+            if not canTeleport() then return end
+            local now = tick()
+            if now - lastTeleport < cooldown then
+                local remaining = math.floor(cooldown - (now - lastTeleport))
+                local minutes = math.floor(remaining / 60)
+                local seconds = remaining % 60
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "JCloud Hub",
+                    Text = "Teleport cooldown! Wait " .. minutes .. "m " .. seconds .. "s.",
+                    Duration = 5
+                })
+                return
+            end
 
-	Disabled = false, -- Will disable the dropdown (true / false)
-	Visible = true, -- Will make the dropdown invisible (true / false)
+            if Value == "Spawn" then
+                teleportTo(CFrame.new(991.195984, 112.798019, -697.489807))
+            elseif Value == "Summit" then
+                teleportTo(CFrame.new(5386.600586, 8109.058594, 2179.034424))
+            end
+
+            lastTeleport = now
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "JCloud Hub",
+                Text = "Teleported to " .. Value,
+                Duration = 3
+            })
+        end,
+    })
+end
+
+-- =========================
+-- RIGHT GROUPBOX TELEPORTS
+-- =========================
+-- Mount Atin
+RightDropdownGroupBox:AddDropdown("AtinDropdown", {
+    Values = {"Spawn", "Pos 23", "Summit"},
+    Default = 1,
+    Text = "Mount Atin",
+    Tooltip = "Teleport Mount Atin",
+    Callback = function(Value)
+        if not canTeleport() then return end
+        if Value == "Spawn" then
+            teleportTo(CFrame.new(10.996780, 60.998020, -964.791565))
+        elseif Value == "Pos 23" then
+            teleportTo(CFrame.new(-423.112488, 1710.612183, 3419.230225))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(694.734863, 2195.690430, 4010.594482))
+        end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Teleported to " .. Value,
+            Duration = 3
+        })
+    end,
 })
 
-DropdownGroupBox:AddDropdown("MyVeryLongDropdown", {
-	Values = {
-		"This",
-		"is",
-		"a",
-		"very",
-		"long",
-		"dropdown",
-		"with",
-		"a",
-		"lot",
-		"of",
-		"values",
-		"but",
-		"you",
-		"can",
-		"see",
-		"more",
-		"than",
-		"8",
-		"values",
-	},
-	Default = 1, -- number index of the value / string
-	Multi = false, -- true / false, allows multiple choices to be selected
-
-	MaxVisibleDropdownItems = 12, -- Default: 8, allows you to change the size of the dropdown list
-
-	Text = "A very long dropdown",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the dropdown
-	DisabledTooltip = "I am disabled!", -- Information shown when you hover over the dropdown while it's disabled
-
-	Searchable = false, -- true / false, makes the dropdown searchable (great for a long list of values)
-
-	Callback = function(Value)
-		print("[cb] Very long dropdown got changed. New value:", Value)
-	end,
-
-	Disabled = false, -- Will disable the dropdown (true / false)
-	Visible = true, -- Will make the dropdown invisible (true / false)
+-- Mount Lembayana
+RightDropdownGroupBox:AddDropdown("LembayanaDropdown", {
+    Values = {"Spawn", "Summit"},
+    Default = 1,
+    Text = "Mount Lembayana",
+    Tooltip = "Teleport Mount Lembayana",
+    Callback = function(Value)
+        if not canTeleport() then return end
+        if Value == "Spawn" then
+            teleportTo(CFrame.new(756.916748, 252.982285, 681.168152))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(-23508.648438, 6307.981934, -6962.814941))
+        end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Teleported to " .. Value,
+            Duration = 3
+        })
+    end,
 })
 
-DropdownGroupBox:AddDropdown("MyPlayerDropdown", {
-	SpecialType = "Player",
-	ExcludeLocalPlayer = true, -- true / false, excludes the localplayer from the Player type
-	Text = "A player dropdown",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the dropdown
-
-	Callback = function(Value)
-		print("[cb] Player dropdown got changed:", Value)
-	end,
+-- Mount Prau
+RightDropdownGroupBox:AddDropdown("PrauDropdown", {
+    Values = {"Spawn", "Summit"},
+    Default = 1,
+    Text = "Mount Prau",
+    Tooltip = "Teleport Mount Prau",
+    Callback = function(Value)
+        if not canTeleport() then return end
+        if Value == "Spawn" then
+            teleportTo(CFrame.new(125.900627, 2.348172, 1243.795044))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(-1364.789795, 481.025940, -1552.814941))
+        end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Teleported to " .. Value,
+            Duration = 3
+        })
+    end,
 })
 
-DropdownGroupBox:AddDropdown("MyTeamDropdown", {
-	SpecialType = "Team",
-	Text = "A team dropdown",
-	Tooltip = "This is a tooltip", -- Information shown when you hover over the dropdown
+-- Mount Daun with 1-minute cooldown
+do
+    local cooldown = 60
+    local lastTeleport = 0
+    RightDropdownGroupBox:AddDropdown("DaunDropdown", {
+        Values = {"Spawn", "Pos 1", "Pos 2", "Pos 3", "Pos 4", "Summit"},
+        Default = 1,
+        Text = "Mount Daun",
+        Tooltip = "Teleport Mount Daun",
+        Callback = function(Value)
+            if not canTeleport() then return end
+            local now = tick()
+            if now - lastTeleport < cooldown then
+                local remaining = math.floor(cooldown - (now - lastTeleport))
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "JCloud Hub",
+                    Text = "Teleport cooldown! Wait " .. remaining .. "s.",
+                    Duration = 3
+                })
+                return
+            end
 
-	Callback = function(Value)
-		print("[cb] Team dropdown got changed:", Value)
-	end,
-})
+            if Value == "Spawn" then
+                teleportTo(CFrame.new(24.289274, 13.024839, -6.883502))
+            elseif Value == "Pos 1" then
+                teleportTo(CFrame.new(-622.821655, 250.330612, -382.938293))
+            elseif Value == "Pos 2" then
+                teleportTo(CFrame.new(-1204.497314, 261.701355, -487.193481))
+            elseif Value == "Pos 3" then
+                teleportTo(CFrame.new(-1398.959717, 578.441101, -950.643921))
+            elseif Value == "Pos 4" then
+                teleportTo(CFrame.new(-1702.220459, 816.613403, -1400.444214))
+            elseif Value == "Summit" then
+                teleportTo(CFrame.new(-3230.208740, 1714.455566, -2589.435547))
+            end
 
--- Label:AddColorPicker
--- Arguments: Idx, Info
-
--- You can also ColorPicker & KeyPicker to a Toggle as well
-
-LeftGroupBox:AddLabel("Color"):AddColorPicker("ColorPicker", {
-	Default = Color3.new(0, 1, 0), -- Bright green
-	Title = "Some color", -- Optional. Allows you to have a custom color picker title (when you open it)
-	Transparency = 0, -- Optional. Enables transparency changing for this color picker (leave as nil to disable)
-
-	Callback = function(Value)
-		print("[cb] Color changed!", Value)
-	end,
-})
-
-Options.ColorPicker:OnChanged(function()
-	print("Color changed!", Options.ColorPicker.Value)
-	print("Transparency changed!", Options.ColorPicker.Transparency)
-end)
-
-Options.ColorPicker:SetValueRGB(Color3.fromRGB(0, 255, 140))
-
--- Label:AddKeyPicker
--- Arguments: Idx, Info
-
-LeftGroupBox:AddLabel("Keybind"):AddKeyPicker("KeyPicker", {
-	-- SyncToggleState only works with toggles.
-	-- It allows you to make a keybind which has its state synced with its parent toggle
-
-	-- Example: Keybind which you use to toggle flyhack, etc.
-	-- Changing the toggle disables the keybind state and toggling the keybind switches the toggle state
-
-	Default = "MB2", -- String as the name of the keybind (MB1, MB2 for mouse buttons)
-	SyncToggleState = false,
-
-	-- You can define custom Modes but I have never had a use for it.
-	Mode = "Toggle", -- Modes: Always, Toggle, Hold
-
-	Text = "Auto lockpick safes", -- Text to display in the keybind menu
-	NoUI = false, -- Set to true if you want to hide from the Keybind menu,
-
-	-- Occurs when the keybind is clicked, Value is `true`/`false`
-	Callback = function(Value)
-		print("[cb] Keybind clicked!", Value)
-	end,
-
-	-- Occurs when the keybind itself is changed, `New` is a KeyCode Enum OR a UserInputType Enum
-	ChangedCallback = function(New)
-		print("[cb] Keybind changed!", New)
-	end,
-})
-
--- OnClick is only fired when you press the keybind and the mode is Toggle
--- Otherwise, you will have to use Keybind:GetState()
-Options.KeyPicker:OnClick(function()
-	print("Keybind clicked!", Options.KeyPicker:GetState())
-end)
-
-Options.KeyPicker:OnChanged(function()
-	print("Keybind changed!", Options.KeyPicker.Value)
-end)
-
-task.spawn(function()
-	while true do
-		wait(1)
-
-		-- example for checking if a keybind is being pressed
-		local state = Options.KeyPicker:GetState()
-		if state then
-			print("KeyPicker is being held down")
-		end
-
-		if Library.Unloaded then
-			break
-		end
-	end
-end)
-
-Options.KeyPicker:SetValue({ "MB2", "Hold" }) -- Sets keybind to MB2, mode to Hold
+            lastTeleport = now
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "JCloud Hub",
+                Text = "Teleported to " .. Value,
+                Duration = 3
+            })
+        end,
+    })
+end
 
 -- Long text label to demonstrate UI scrolling behaviour.
-local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("Groupbox #2")
+local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("Information")
 LeftGroupBox2:AddLabel(
-	"This label spans multiple lines! We're gonna run out of UI space...\nJust kidding! Scroll down!\n\n\nHello from below!",
+	"This feature should be used responsibly to avoid being banned by Roblox admins or staff.\n\nSIRENHUB 2025",
 	true
 )
-
-local TabBox = Tabs.Main:AddRightTabbox() -- Add Tabbox on right side
-
--- Anything we can do in a Groupbox, we can do in a Tabbox tab (AddToggle, AddSlider, AddLabel, etc etc...)
-local Tab1 = TabBox:AddTab("Tab 1")
-Tab1:AddToggle("Tab1Toggle", { Text = "Tab1 Toggle" })
-
-local Tab2 = TabBox:AddTab("Tab 2")
-Tab2:AddToggle("Tab2Toggle", { Text = "Tab2 Toggle" })
-
-Library:OnUnload(function()
-	print("Unloaded!")
-end)
 
 -- UI Settings
 local MenuGroup = Tabs["UI Settings"]:AddLeftGroupbox("Menu", "wrench")
