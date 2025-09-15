@@ -557,11 +557,32 @@ LeftDropdownGroupBox:AddDropdown("DombretDropdown", {
     end,
 })
 
+-- Mount Bae
+LeftDropdownGroupBox:AddDropdown("BaeDropdown", {
+    Values = {"Spawn", "Summit"},
+    Default = 1,
+    Text = "Mount Bae",
+    Tooltip = "Teleport Mount Bae",
+    Callback = function(Value)
+        if not canTeleport() then return end
+        if Value == "Spawn" then
+            teleportTo(CFrame.new(489.839050, 120.997307, 762.160034))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(156.748718, 827.008911, -1026.950317))
+        end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = "Teleported to " .. Value,
+            Duration = 3
+        })
+    end,
+})
+
 -- Mount Sibuatan Anti Delay
 LeftDropdownGroupBox:AddDropdown("SibuatanAntiDelayDropdown", {
     Values = {"Spawn", "Summit"},
     Default = 1,
-    Text = "Mount Sibuatan AD",
+    Text = "Mount Sibuatan No Cooldown",
     Tooltip = "Teleport Mount Sibuatan Anti Delay",
     Callback = function(Value)
         if not canTeleport() then return end
@@ -633,6 +654,15 @@ do
         end,
     })
 end
+
+LeftDropdownGroupBox:AddLabel(
+    "• For Mount Atin: You must go to CP 23 first before heading to the Summit.\n" ..
+    "• For Mount Sibuatan: It is recommended to use the Delay option to avoid suspicion.\n" ..
+    "• For Mount Daun: If CP is unavailable, wait approximately 30 seconds after teleporting.\n\n" ..
+    "SIRENHUB 2025",
+    true
+)
+
 
 -- =========================
 -- RIGHT GROUPBOX TELEPORTS
