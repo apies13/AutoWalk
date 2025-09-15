@@ -72,7 +72,7 @@ KeyTab:AddKeyBox(function(Success, RecivedKey)
 
         task.delay(3, function()
             Library:Unload()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/sirenhub/refs/heads/main/SIRENMenu.lua?token=GHSAT0AAAAAADLE2XYIOM4RXOCRJAQPQDJS2GHXLNQ", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/sirenhub/refs/heads/main/SIRENMenu.lua?token=GHSAT0AAAAAADLE2XYJ4FQ3XTAI2EXOFHYK2GHXZKQ", true))()
         end)
     else
         Library:Notify("Incorrect Key! " .. tostring(dataOrMsg), 5)

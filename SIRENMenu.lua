@@ -1,6 +1,12 @@
 -- example script by https://github.com/mstudio45/LinoriaLib/blob/main/Example.lua and modified by deivid
 -- You can suggest changes with a pull request or something
 
+-- Ambil data dari login
+local data = _G.SIREN_Data or {}
+local Key = data.Key or "Unknown"
+local HWID = data.HWID or "Unknown"
+local ExpireAt = data.ExpireAt or "Unknown"
+
 local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
@@ -22,7 +28,7 @@ local Window = Library:CreateWindow({
 	-- Position and Size are also valid options here
 	-- but you do not need to define them unless you are changing them :)
 
-	Title = "SIREN HUB",
+	Title = "SIREN HUB | " .. Key,
 	Footer = "Version: 1.0.0",
 	Icon = nil,
 	NotifySide = "Right",
@@ -39,11 +45,64 @@ local Window = Library:CreateWindow({
 local Tabs = {
 	-- Creates a new tab titled Main
 	Information = Window:AddTab("Information", "info"),
-	Main = Window:AddTab("Players", "user"),
-	Teleports = Window:AddTab("Teleport", "box"),
+	Main = Window:AddTab("General", "house"),
+	Teleports = Window:AddTab("Teleport", "map-pin"),
+    Tween = Window:AddTab("Auto Walk", "rewind"),
+    Aimbot = Window:AddTab("Aimbot", "crosshair"),
 	-- Key = Window:AddKeyTab("Key System"),
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
+
+    local TweenService = game:GetService("TweenService")
+    local Players = game:GetService("Players")
+    local RunService = game:GetService("RunService")
+    local player = Players.LocalPlayer
+    local Player = Players.LocalPlayer
+    local Character = Player.Character or Player.CharacterAdded:Wait()
+    local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+
+-- ========================================
+-- State
+-- ========================================
+_G.BypassEnabled = false
+_G.GodmodeEnabled = false
+local conn
+
+-- ========================================
+-- Main Loop
+-- ========================================
+local function setup(char)
+    local humanoid = char:WaitForChild("Humanoid")
+    local hrp = char:WaitForChild("HumanoidRootPart")
+    local lastPos = hrp.Position
+
+    if conn then conn:Disconnect() end
+    conn = RunService.RenderStepped:Connect(function()
+        if not hrp or not hrp.Parent then return end
+
+        -- BYPASS
+        if _G.BypassEnabled then
+            local direction = (hrp.Position - lastPos)
+            local dist = direction.Magnitude
+            if dist > 0.01 then
+                local moveVector = direction.Unit * math.clamp(dist*5,0,1)
+                humanoid:Move(moveVector,false)
+            else
+                humanoid:Move(Vector3.zero,false)
+            end
+        end
+
+        -- GODMODE
+        if _G.GodmodeEnabled then
+            humanoid.Health = humanoid.MaxHealth
+        end
+
+        lastPos = hrp.Position
+    end)
+end
+
+player.CharacterAdded:Connect(setup)
+if player.Character then setup(player.Character) end
 
 
 --[[
@@ -60,13 +119,7 @@ WarningTab:UpdateWarningBox({
 ]]
 
 -- Groupbox Kiri: License Info
-local LeftGroupBox = Tabs.Information:AddLeftGroupbox("Your License")
-
--- Ambil data dari login
-local data = _G.SIREN_Data or {}
-local Key = data.Key or "Unknown"
-local HWID = data.HWID or "Unknown"
-local ExpireAt = data.ExpireAt or "Unknown"
+local LeftGroupBox = Tabs.Information:AddLeftGroupbox("Licenses")
 
 LeftGroupBox:AddLabel(
     "Your Key: " .. Key ..
@@ -76,18 +129,49 @@ LeftGroupBox:AddLabel(
 )
 
 -- Groupbox Kanan: Roblox Info & Level
-local RightGroupBox = Tabs.Information:AddRightGroupbox("Your Account Info")
+local LeftGroupBox = Tabs.Information:AddLeftGroupbox("Profiles")
 
 local RobloxUser = data.RobloxUser or "Unknown"
 local RobloxID = data.RobloxID or "Unknown"
 local Level = data.Level or "Free"
 
-RightGroupBox:AddLabel(
+LeftGroupBox:AddLabel(
     "Level: " .. Level ..
     "\n\nRoblox Username: " .. RobloxUser ..
     "\nRoblox ID: " .. RobloxID,
     true
 )
+
+local RightGroupBox = Tabs.Information:AddRightGroupbox("Information")
+
+local WrappedLabel = RightGroupBox:AddLabel({
+    Text = "Made by R4kshit",
+    DoesWrap = true
+})
+
+local Button = RightGroupBox:AddButton({
+    Text = "<font color='rgb(0, 123, 255)'>Instagram</font>",
+    Func = function()
+        print("Copied Instagram link: https://instagram.com/hfzrydrmwn_")
+        setclipboard("https://instagram.com/hfzrydrmwn_") -- optional, automatically copies the link
+    end,
+    DoubleClick = false
+})
+
+local WrappedLabel = RightGroupBox:AddLabel({
+    Text = "© SIRENHub 2025",
+    DoesWrap = true
+})
+
+local Button = RightGroupBox:AddButton({
+    Text = "<font color='rgb(0, 123, 255)'>Discord</font>",
+    Func = function()
+        print("Copied Discord link: https://dsc.gg/sirenhub")
+        setclipboard("https://dsc.gg/sirenhub") -- optional, automatically copies the link
+    end,
+    DoubleClick = false
+})
+
 
 
 -- Groupbox and Tabbox inherit the same functions
@@ -259,6 +343,45 @@ FlyTab:AddSlider("FlySpeedSlider", {
 local RightGroupBox = Tabs.Main:AddRightGroupbox("Character", "boxes")
 
 -- ========================================
+-- Bypass Toggle
+-- ========================================
+_G.BypassEnabled = false
+
+local BypassToggle = RightGroupBox:AddToggle("BypassToggle", {
+    Text = "Bypass",
+    Tooltip = "Enable bypass movement",
+    Default = false,
+    Callback = function(Value)
+        _G.BypassEnabled = Value
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = Value and "Bypass Activated!" or "Bypass Deactivated!",
+            Duration = 5
+        })
+    end,
+})
+
+-- ========================================
+-- Godmode Toggle
+-- ========================================
+_G.GodmodeEnabled = false
+
+local GodmodeToggle = RightGroupBox:AddToggle("GodmodeToggle", {
+    Text = "Godmode",
+    Tooltip = "Enable godmode (auto-heal)",
+    Default = false,
+    Callback = function(Value)
+        _G.GodmodeEnabled = Value
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "JCloud Hub",
+            Text = Value and "Godmode Activated!" or "Godmode Deactivated!",
+            Duration = 5
+        })
+    end,
+})
+
+
+-- ========================================
 -- Infinite Jump Toggle
 -- ========================================
 _G.InfiniteJumpEnabled = false
@@ -389,122 +512,6 @@ LeftGroupBox:AddDivider()
 	HideMax will only display the value instead of the value & max value of the slider
 	Compact will do the same thing
 ]]
-
-local RightGroupBox2 = Tabs.Main:AddRightGroupbox("ESP", "boxes")
-
--- ========================================
--- ESP Sense Custom Toggles
--- ========================================
-_G.ESPSenseEnabled = false
-
--- Load library Sense
-local Sense = loadstring(game:HttpGet('https://sirius.menu/sense'))()
-
--- Minimal shared config
-Sense.sharedSettings.textSize = 13
-Sense.sharedSettings.textFont = 2
-Sense.sharedSettings.limitDistance = false
-Sense.sharedSettings.maxDistance = 200
-Sense.sharedSettings.useTeamColor = false
-
--- Enemy config
-local enemy = Sense.teamSettings.enemy
-enemy.enabled = false
-enemy.box = true
-enemy.name = true
-enemy.healthBar = true
-enemy.healthText = true
-enemy.distance = true
-enemy.tracer = true
-enemy.tracerOrigin = "Bottom"
-
--- Load ESP initially
-Sense:Load()
-
--- =======================
--- ESP Toggles
--- =======================
-local function UpdateESP()
-    if _G.ESPSenseEnabled then
-        enemy.enabled = true
-        Sense:Load()
-    else
-        enemy.enabled = false
-        Sense:Unload()
-    end
-end
-
--- Main ESP Toggle
-local ESPSenseToggle = RightGroupBox2:AddToggle("ESPSenseToggle", {
-    Text = "ESP Sense",
-    Tooltip = "Enable or disable ESP Sense",
-    Default = false,
-    Callback = function(Value)
-        _G.ESPSenseEnabled = Value
-        UpdateESP()
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
-            Text = Value and "ESP Sense Activated!" or "ESP Sense Deactivated!",
-            Duration = 5
-        })
-    end,
-})
-
--- Health Toggle
-local ESPHealthToggle = RightGroupBox2:AddToggle("ESPHealthToggle", {
-    Text = "ESP Health",
-    Tooltip = "Show/Hide enemy health",
-    Default = true,
-    Callback = function(Value)
-        enemy.healthBar = Value
-        enemy.healthText = Value
-        if _G.ESPSenseEnabled then Sense:Load() end
-    end,
-})
-
--- Distance Toggle
-local ESPDistanceToggle = RightGroupBox2:AddToggle("ESPDistanceToggle", {
-    Text = "ESP Distance",
-    Tooltip = "Show/Hide distance to enemy",
-    Default = true,
-    Callback = function(Value)
-        enemy.distance = Value
-        if _G.ESPSenseEnabled then Sense:Load() end
-    end,
-})
-
--- Name Toggle
-local ESPNameToggle = RightGroupBox2:AddToggle("ESPNameToggle", {
-    Text = "ESP Name",
-    Tooltip = "Show/Hide enemy names",
-    Default = true,
-    Callback = function(Value)
-        enemy.name = Value
-        if _G.ESPSenseEnabled then Sense:Load() end
-    end,
-})
-
--- Box Toggle
-local ESPBoxToggle = RightGroupBox2:AddToggle("ESPBoxToggle", {
-    Text = "ESP Box",
-    Tooltip = "Show/Hide boxes around enemy",
-    Default = true,
-    Callback = function(Value)
-        enemy.box = Value
-        if _G.ESPSenseEnabled then Sense:Load() end
-    end,
-})
-
--- Line/Tracer Toggle
-local ESPLineToggle = RightGroupBox2:AddToggle("ESPLineToggle", {
-    Text = "ESP Line",
-    Tooltip = "Show/Hide tracer lines",
-    Default = true,
-    Callback = function(Value)
-        enemy.tracer = Value
-        if _G.ESPSenseEnabled then Sense:Load() end
-    end,
-})
 
 -- =========================
 -- Teleports
@@ -797,6 +804,53 @@ do
         end,
     })
 end
+
+
+--===============================
+-- Tabbox Auto Walk Mount Atin
+--===============================
+local LeftGroupBox = Tabs.Tween:AddLeftGroupbox("Auto Walk", "boxes")
+
+-- ========================================
+-- Auto Walk Atin
+-- ========================================
+
+local AtinWalk = LeftGroupBox:AddButton({
+    Text = "Mountain Atin",
+    Func = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/SIRENHub/MountAtin/refs/heads/main/atin.lua"))()
+        end)
+        if success then
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "SIRENHub",
+                Text = "Atin.lua Loaded!",
+                Duration = 5
+            })
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Auto Walk Mount Atin",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
+
+
+
+-- Info kanan
+local RightGroupBox = Tabs.Tween:AddRightGroupbox("Tween Information")
+RightGroupBox:AddLabel(
+    "Red = Risk / MT features (use with caution)\n" ..
+    "Gray = Safe / Usable features (safe to use without restrictions)",
+    true
+)
+
 
 -- Long text label to demonstrate UI scrolling behaviour.
 local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("Information")
