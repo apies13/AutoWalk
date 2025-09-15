@@ -559,14 +559,34 @@ LeftDropdownGroupBox:AddDropdown("DombretDropdown", {
 
 -- Mount Bae
 LeftDropdownGroupBox:AddDropdown("BaeDropdown", {
-    Values = {"Spawn", "Summit"},
+    Values = {"Spawn", "Pos 1", "Pos 2", "Pos 3", "Pos 4", "Pos 5", "Pos 6", "Pos 7", "Pos 8", "Pos 9", "Pos 10","Summit"},
     Default = 1,
     Text = "Mount Bae",
     Tooltip = "Teleport Mount Bae",
     Callback = function(Value)
         if not canTeleport() then return end
         if Value == "Spawn" then
-            teleportTo(CFrame.new(489.839050, 120.997307, 762.160034))
+            teleportTo(CFrame.new(-956.970276, 12.988224, -40.118973))
+        elseif Value == "Pos 1" then
+            teleportTo(CFrame.new(-332.356598, 8.425612, 843.595337))
+        elseif Value == "Pos 2" then
+            teleportTo(CFrame.new(14.968253, -78.669571, 903.435791))
+        elseif Value == "Pos 3" then
+            teleportTo(CFrame.new(653.461731, -57.040031, 898.096802))
+        elseif Value == "Pos 4" then
+            teleportTo(CFrame.new(735.625488, -63.313019, 869.999817))
+        elseif Value == "Pos 5" then
+            teleportTo(CFrame.new(899.848022, -89.086182, 703.965515))
+        elseif Value == "Pos 6" then
+            teleportTo(CFrame.new(870.410706, -191.344238, 204.041626))
+        elseif Value == "Pos 7" then
+            teleportTo(CFrame.new(376.631134, -108.507935, 44.201252))
+        elseif Value == "Pos 8" then
+            teleportTo(CFrame.new(-128.079926, 22.572203, 121.887970))
+        elseif Value == "Pos 9" then
+            teleportTo(CFrame.new(1.519313, -8.436832, -153.418976))
+        elseif Value == "Pos 10" then
+            teleportTo(CFrame.new(122.552444, 91.255173, -674.180603))
         elseif Value == "Summit" then
             teleportTo(CFrame.new(156.748718, 827.008911, -1026.950317))
         end
