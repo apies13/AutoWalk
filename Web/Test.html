@@ -1,0 +1,765 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>SIRENHub - Booster Roblox</title>
+    <meta name="description" content="HadesNetwork: Solusi Game Hosting Performa Tinggi (SAMP, Minecraft), Layanan SMM, dan Top Up Game Murah. Cepat, andal, dan didukung komunitas." />
+    <meta name="keywords" content="game hosting, samp hosting, minecraft hosting, smm, followers instagram, top up game, top up ml, top up ff, hadesnetwork" />
+    <meta name="author" content="HadesNetwork" />
+    <link rel="canonical" href="https://hadesnetwork.online/" />
+
+    <meta property="og:title" content="HadesNetwork - Platform Hosting & Layanan Digital Modern" />
+    <meta property="og:description" content="Solusi satu atap untuk hosting game, layanan SMM, dan top up game. Cepat, andal, dan terotomatisasi." />
+    <meta property="og:image" content="https://media.hadesnetwork.online/HadesNetwork%20(2).png" />
+    <meta property="og:url" content="https://hadesnetwork.online/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SIRENHub" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SIRENHub - Platform Cheat Roblox" />
+    <meta name="twitter:description" content="Solusi satu atap untuk hosting game, layanan SMM, dan top up game. Cepat, andal, dan terotomatisasi." />
+    <meta name="twitter:image" content="https://media.hadesnetwork.online/HadesNetwork%20(2).png" />
+
+    <meta name="theme-color" content="#7f3cff">
+    <link rel="icon" href="/Favicon_Transparent.png" type="image/png" />
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SIRENHub",
+      "url": "https://hadesnetwork.online/",
+      "logo": "https://media.hadesnetwork.online/Favicon_Transparent-removebg-preview.png",
+      "description": "Platform penyedia layanan digital terdepan untuk hosting game, SMM, dan kebutuhan online lainnya dengan performa dan dukungan terbaik.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@hadesnetwork.online",
+        "contactType": "Customer Support"
+      },
+      "sameAs": [
+        "https://instagram.com/hadesnetwork.id",
+        "https://tiktok.com/@hadesnetwork.id",
+        "https://wa.me/6283114970578"
+      ]
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5271ff;
+            --accent: #8c52ff;
+            --gradient-main: linear-gradient(135deg, #16172D 0%, #1F1F3D 100%);
+            --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            --gradient-btn: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+            --gradient-btn-hover: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            
+            --surface: #1A1B32;
+            --glass-bg: rgba(26, 27, 50, 0.7);
+            --glass-blur: blur(20px);
+            
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-border-hover: rgba(140, 82, 255, 0.7);
+
+            --text-light: #EAEBF2;
+            --text-muted: #A0A3C2;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --shadow-glow: 0 0 40px rgba(140, 82, 255, 0.2);
+            --transition: 0.3s cubic-bezier(.4, 0, .2, 1);
+            
+            --header-height: 70px;
+            --top-banner-height: 50px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--gradient-main);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: url('https://media.hadesnetwork.online/abstract-bg-1.jpg') center center/cover no-repeat;
+            opacity: 0.1;
+            filter: blur(15px) brightness(1);
+            animation: bgMove 25s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+        @keyframes bgMove {
+            from { transform: scale(1.1) rotate(0deg); }
+            to { transform: scale(1.2) rotate(3deg); }
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        h1, h2, h3, h4 { margin: 0; font-weight: 700; } p { margin: 0; } ul { list-style: none; } a { text-decoration: none; color: inherit; }
+
+        .top-banner { background-color: var(--accent); color: #fff; text-align: center; padding: 0.8rem 1.5rem; font-size: 0.95rem; font-weight: 500; display: flex; justify-content: center; align-items: center; position: sticky; top: 0; z-index: 1001; height: var(--top-banner-height); }
+        .top-banner a { text-decoration: underline; margin-left: 8px; font-weight: 600; }
+
+        .section { padding: 5rem 0; }
+        .section-header { text-align: center; margin-bottom: 3.5rem; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .section-header .tag { display: inline-block; background: var(--gradient-btn); color: #fff; padding: 0.5rem 1.2rem; border-radius: 99px; font-weight: 600; font-size: 0.9rem; margin-bottom: 1rem; }
+        .section-header h2 { font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 1rem; }
+        .section-header p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.8rem 1.8rem; border-radius: var(--radius-md); font-weight: 600; border: 1px solid transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all var(--transition); cursor: pointer; text-decoration: none; font-size: 1rem; }
+        .btn i { transition: transform 0.2s ease-out; }
+        .btn:hover i { transform: translateX(2px); }
+        .btn-primary { background: var(--gradient-btn); color: #fff; border-color: rgba(255,255,255,0.2); }
+        .btn-primary:hover { background: var(--gradient-btn-hover); box-shadow: 0 8px 25px rgba(140, 82, 255, 0.3); transform: translateY(-3px); }
+        .btn-secondary { color: var(--text-light); background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.15); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); }
+        
+        .glass-card { background: var(--gradient-card); backdrop-filter: var(--glass-blur); border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 2.5rem; border: 1px solid var(--card-border); transition: all var(--transition); position: relative; overflow: hidden; }
+        .glass-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 70%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transform: skewX(-30deg); transition: left 0.5s ease-in-out; }
+        .glass-card:hover { box-shadow: var(--shadow-glow); transform: translateY(-8px) scale(1.02); border-color: var(--card-border-hover); }
+        .glass-card:hover::before { left: 120%; }
+
+        header { position: sticky; top: var(--top-banner-height); left: 0; width: 100%; height: var(--header-height); background: var(--glass-bg); backdrop-filter: var(--glass-blur); z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        /* --- PERBAIKAN 2: NAVBAR DI TENGAH --- */
+        .header-content { display: flex; align-items: center; height: 100%; position: relative; }
+        .header-content > nav { position: absolute; left: 50%; transform: translateX(-50%); }
+        .header-actions { margin-left: auto; } /* Mendorong tombol ke kanan */
+
+        .logo img { height: 40px; }
+        .main-nav { display: flex; list-style: none; }
+        .main-nav > li { position: relative; }
+        .main-nav > li > a { display: flex; align-items: center; gap: 0.3rem; color: var(--text-muted); font-weight: 500; padding: 0.5rem 1rem; border-radius: var(--radius-md); transition: all var(--transition); height: 40px; }
+        .main-nav > li > a:hover, .main-nav a.active-link { color: #fff; background: rgba(255,255,255,0.08); }
+        .main-nav > li.has-megamenu > a::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.6rem; margin-left: 0.4rem; transition: transform var(--transition); }
+        .main-nav > li.has-megamenu:hover > a::after { transform: rotate(180deg); }
+        
+        .mega-menu-wrapper { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); padding-top: 1rem; opacity: 0; visibility: hidden; transform-origin: top center; transition: all var(--transition); z-index: 999; }
+        .main-nav > li.has-megamenu:hover .mega-menu-wrapper { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .mega-menu-content { width: 500px; background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--card-border); box-shadow: var(--shadow); padding: 1.5rem; }
+        .mega-menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .mega-menu-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: var(--radius-md); transition: background var(--transition); }
+        .mega-menu-item:hover { background: rgba(255, 255, 255, 0.05); }
+        .mega-menu-item .icon { font-size: 1.5rem; color: var(--accent); flex-shrink: 0; }
+        .mega-menu-item .title { font-weight: 600; color: var(--text-light); margin-bottom: 0.25rem; }
+        .mega-menu-item .description { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+        .sidebar { position: fixed; top: 0; left: -100%; width: 90%; max-width: 320px; height: 100vh; background: var(--surface); z-index: 1200; transition: left var(--transition); padding: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+        .sidebar.active { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.3); }
+        .sidebar a { color: var(--text-light); font-weight: 600; padding: 1rem; border-radius: var(--radius-lg); transition: background var(--transition); font-size: 1.1rem; }
+        .sidebar a:hover, .sidebar a.active-link { background: var(--gradient-btn); }
+        .sidebar .auth-buttons { margin-top: auto; display: flex; flex-direction: column; gap: 1rem; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.6); z-index: 1100; opacity: 0; pointer-events: none; transition: opacity var(--transition); }
+        .overlay.active { opacity: 1; pointer-events: auto; }
+        .hamburger-toggle { display: none; background: none; border: none; color: var(--accent); font-size: 1.8rem; cursor: pointer; }
+        .header-actions { display: flex; gap: 1rem; }
+        .hero { min-height: calc(100vh - var(--top-banner-height) - var(--header-height)); display: flex; align-items: center; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 3rem; }
+        .hero-text { text-align: left; }
+        .hero-text h1 { font-size: clamp(2.5rem, 5vw, 3.8rem); font-weight: 800; color: #fff; margin-bottom: 1.5rem; line-height: 1.2; }
+        .hero-text h1 span { background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* --- PERBAIKAN 1: KURSOR MENGETIK --- */
+        .hero-text .subtitle { 
+            font-size: 1.1rem; 
+            color: var(--text-muted); 
+            margin-bottom: 2.5rem; 
+            max-width: 500px; 
+            line-height: 1.7;
+            min-height: 70px;
+        }
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background-color: var(--accent);
+            margin-left: 3px;
+            animation: blink-caret 0.75s step-end infinite;
+            vertical-align: middle; /* Kunci perbaikan agar sejajar dengan teks */
+        }
+        @keyframes blink-caret { from, to { background-color: transparent; } 50% { background-color: var(--accent); } }
+
+        .btn-hero { padding: 1rem 2.5rem; font-size: 1.15rem; }
+        .hero-image { display: flex; justify-content: center; align-items: center; }
+        .hero-image img { max-width: 100%; height: auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-glow); animation: float-image 4s ease-in-out infinite; }
+        @keyframes float-image { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
+        .icon-wrapper { width: 60px; height: 60px; border-radius: var(--radius-md); display: grid; place-items: center; background: var(--gradient-btn); box-shadow: 0 6px 15px rgba(140, 82, 255, 0.25); margin-bottom: 1.5rem; font-size: 1.8rem; color: #ffffff; }
+        .trust-bar { padding: 5rem 0; }
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .trust-item { text-align: center; }
+        .trust-item .icon-wrapper { margin-left: auto; margin-right: auto; }
+        .trust-item h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff; }
+        .trust-item p { color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
+        /* --- PERUBAHAN UTAMA UNTUK SERVICE CARD HOVER BLUR --- */
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; transition: all var(--transition);}
+        .special-card.glass-card { padding: 0; min-height: 380px; display: flex; flex-direction: column; }
+        .special-card { transition: all var(--transition); }
+        .service-grid:hover .special-card:not(:hover) {
+            filter: blur(4px);
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+        .special-card:hover {
+            transform: scale(1.05) !important; /* !important untuk menimpa aturan di atas */
+        }
+        .card-banner { height: 120px; background-size: cover; background-position: center; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+        .special-card .icon-wrapper { position: absolute; top: 120px; left: 50%; transform: translate(-50%, -50%); border: 4px solid var(--surface); background: var(--surface); }
+        .card-content { padding: 4rem 1.5rem 1.5rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-content h3 { font-size: 1.5rem; color: #fff; margin-bottom: 1rem; }
+        .card-content p, .card-content .btn-special {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: all var(--transition);
+            transition-delay: 0.1s;
+        }
+        .special-card:hover .card-content p, .special-card:hover .card-content .btn-special {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .card-content p { color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 2rem; flex-grow: 1; }
+        .btn-special { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: var(--gradient-btn); color: #fff; font-weight: 600; padding: 0.8rem 1.5rem; border-radius: var(--radius-md); text-decoration: none; border: none; align-self: center; }
+        .btn-special:hover { background: var(--gradient-btn-hover); transform: scale(1.05) !important; }
+        /* --- PERUBAHAN UTAMA UNTUK BAGIAN KEUNGGULAN --- */
+        .features-professional-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .features-image img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius-lg);
+            /* Border baru untuk gambar */
+            border: 2px solid var(--card-border-hover); 
+            box-shadow: var(--shadow);
+        }
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+        .feature-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        .feature-item .icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-top: 5px;
+            width: 30px;
+            text-align: center;
+        }
+        .feature-item h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .feature-item p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        @media (max-width: 768px) {
+            .section { padding: 4rem 0; }
+            .section-header h2 { font-size: 2.2rem; }
+            .service-grid:hover .special-card:not(:hover) { filter: none; opacity: 1; transform: scale(1); }
+            .special-card:hover { transform: scale(1.02) !important; }
+            .features-professional-wrapper { 
+                grid-template-columns: 1fr; /* Ubah jadi 1 kolom di mobile */
+                gap: 2rem; /* Kurangi gap agar tidak terlalu banyak ruang kosong */
+            } 
+            .features-image { 
+                /* Tambahkan padding di mobile untuk menghindari gambar terlalu mepet */
+                padding: 0 1.5rem; 
+            }
+            /* Menyesuaikan gambar agar tidak terlalu besar di mobile */
+            .features-image img {
+                max-width: 100%;
+                height: auto;
+                object-fit: cover;
+            }
+        }
+        @media (max-width: 576px) {
+            .section { padding: 3rem 0; }
+            .section-header h2, .cta-card h2 { font-size: 1.8rem; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .footer-logo, .social-links { justify-content: center; }
+            .top-banner { font-size: 0.85rem; padding: 0.6rem 1rem; }
+            .features-image { 
+                padding: 0 1rem; /* Kurangi padding lagi untuk layar yang lebih kecil */
+            }
+        }   
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .feature-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text-muted); font-size: 1rem; margin-bottom: 1rem; }
+        .feature-card ul { padding-left: 0; }
+        .feature-card ul li { color: var(--text-light); font-size: 0.95rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.7rem; }
+        .feature-card ul i { color: var(--accent); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .testimonial-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .testimonial-header img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); }
+        .testimonial-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .testimonial-role { font-size: 0.9rem; color: var(--primary); }
+        .testimonial-body { font-size: 1rem; color: var(--text-muted); font-style: italic; line-height: 1.6; }
+        .faq-container { max-width: 800px; margin: 0 auto; display: grid; gap: 1rem; }
+        .faq-item .glass-card { padding: 0; }
+        .faq-question { width: 100%; background: none; border: none; color: var(--text-light); font-size: 1.1rem; font-weight: 600; padding: 1.5rem 2rem; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background var(--transition); }
+        .faq-question:hover { background: rgba(255, 255, 255, 0.05); }
+        .faq-question .icon { transition: transform var(--transition); color: var(--accent); }
+        .faq-item.active .faq-question .icon { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; }
+        .faq-answer p { padding: 0 2rem 1.5rem; color: var(--text-muted); line-height: 1.6; }
+        .faq-item.active .faq-answer { max-height: 200px; }
+        .cta-card { text-align: center; }
+        .cta-icon { font-size: 3rem; color: var(--accent); margin-bottom: 1.5rem; display: inline-block; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
+        .cta-card h2 { font-size: 2.5rem; font-weight: 800; color: #fff; margin-bottom: 1rem; }
+        .cta-card p { color: var(--text-light); font-size: 1.15rem; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .cta-actions { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+        footer { padding: 5rem 0 2.5rem 0; border-top: 1px solid var(--card-border); background: var(--surface); margin-top: 5rem; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 4rem; }
+        .footer-col.about { grid-column: 1; }
+        .footer-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .footer-logo img { height: 36px; }
+        .logo-text { font-size: 1.6rem; font-weight: 800; }
+        .part1 { color: var(--text-light); } .part2 { color: var(--accent); }
+        .footer-about-text { color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem; }
+        .social-links { display: flex; gap: 1rem; }
+        .social-links a { color: var(--text-light); background: rgba(255,255,255,0.08); width: 44px; height: 44px; border-radius: var(--radius-md); display: grid; place-items: center; font-size: 1.2rem; transition: all var(--transition); }
+        .social-links a:hover { background: var(--accent); color: #fff; transform: translateY(-3px); }
+        .footer-col h4 { font-size: 1.2rem; color: #fff; margin-bottom: 1.5rem; font-weight: 600; }
+        .footer-col ul li { margin-bottom: 1rem; }
+        .footer-col ul a { color: var(--text-muted); transition: color 0.3s; font-weight: 500; }
+        .footer-col ul a:hover { color: var(--accent); }
+        .footer-bottom { text-align: center; padding-top: 2.5rem; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.95rem; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 992px) {
+            .header-content > nav { display: none; } /* Sembunyikan nav utama di mobile */
+            .header-actions { display: none; }
+            .hamburger-toggle { display: block; margin-left: auto; } /* Dorong hamburger ke kanan */
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-col.about { grid-column: 1 / -1; }
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-text { text-align: center; order: 2; }
+            .hero-image { order: 1; margin-bottom: 2rem; }
+            .hero-text .subtitle { margin-left: auto; margin-right: auto; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 4rem 0; }
+            .section-header h2 { font-size: 2.2rem; }
+            .trust-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 576px) {
+            .section { padding: 3rem 0; }
+            .section-header h2, .cta-card h2 { font-size: 1.8rem; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .footer-logo, .social-links { justify-content: center; }
+            .top-banner { font-size: 0.85rem; padding: 0.6rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-banner">
+        🎉 Don't forget to join our Discord community to stay updated and get the latest cheats! <a href="https://discord.gg/m5qdpgspRC">Join Now!</a>
+    </div>
+
+
+    <header>
+        <div class="container header-content">
+            <a href="/index.html" class="logo"><img src="https://media.hadesnetwork.online/Favicon_Transparent-removebg-preview.png" alt="SIRENHub Logo" /></a>
+            
+            <nav>
+                <ul class="main-nav">
+                    <li class="has-megamenu">
+                        <a href="/maintenance.html">Cheats</a>
+                        <div class="mega-menu-wrapper">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-grid">
+                                    <a href="/maintenance.html" class="mega-menu-item">
+                                        <div class="icon"><i class="fas fa-ghost"></i></div>
+                                        <div>
+                                            <div class="title">Roblox</div>
+                                            <div class="description">Premium cheats for Roblox to enhance your gameplay.</div>
+                                        </div>
+                                    </a>
+                                    <a href="/maintenance.html" class="mega-menu-item">
+                                        <div class="icon"><i class="fas fa-crosshairs"></i></div>
+                                        <div>
+                                            <div class="title">PUBG Mobile</div>
+                                            <div class="description">Reliable cheats for PUBG Mobile to gain competitive advantage.</div>
+                                        </div>
+                                    </a>
+                                    <a href="/maintenance.html" class="mega-menu-item">
+                                        <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                                        <div>
+                                            <div class="title">Mobile Legends</div>
+                                            <div class="description">Safe and easy-to-use cheats for Mobile Legends.</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="https://sfl.gl/qjUTr">Free Key</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions"></div>
+            <button class="hamburger-toggle" id="toggleSidebar" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="overlay" id="overlay"></div>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div class="hero-text reveal">
+                        <h1>The Most Complete Digital Platform for <span>Cheat Providers</span></h1>
+                        <p class="subtitle" id="typing-text-container">
+                            <span id="typed-text"></span><span class="typing-cursor"></span>
+                        </p>
+                        <a href="#services" class="btn btn-primary btn-hero"><i class="fas fa-rocket"></i> Explore Services</a>
+                    </div>
+                    <div class="hero-image reveal">
+                        <img src="https://media.hadesnetwork.online/banner-atas-index.html.png" alt="Promo Banner SIRENHub">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="layanan">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="tag">Main Services</span>
+                <h2>Level Up Your Game with Our Elite Cheats</h2>
+                <p>Unlock the full potential of your favorite online games with our premium cheats and hacks. Dominate the leaderboards, gain an edge over your opponents, and experience gaming like never before!</p>
+                </div>
+                <div class="service-grid">
+                    <div class="special-card glass-card reveal">
+                        <div class="card-banner" style="background-image: url('https://media.hadesnetwork.online/gamehosting.png');"></div>
+                        <div class="icon-wrapper"><i class="fas fa-gamepad"></i></div>
+                        <div class="card-content">
+                            <h3>Roblox Cheats</h3>
+                            <p>Get the ultimate Roblox hacks to unlock exclusive items, skip grind, and gain the upper hand in every game.</p>
+                            <a href="/maintenance.html" class="btn-special">
+                                <span>Explore Cheats</span> <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="special-card glass-card reveal">
+                        <div class="card-banner" style="background-image: url('https://media.hadesnetwork.online/banner2.png');"></div>
+                        <div class="icon-wrapper"><i class="fas fa-crosshairs"></i></div>
+                        <div class="card-content">
+                            <h3>PUBG Mobile Hacks</h3>
+                            <p>Dominate PUBG Mobile with aimbots, wallhacks, and other powerful cheats designed for fast wins and maximum fun.</p>
+                            <a href="/maintenance.html" class="btn-special">
+                                <span>Start Hacking</span> <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="special-card glass-card reveal">
+                        <div class="card-banner" style="background-image: url('https://media.hadesnetwork.online/suntiksosmed.png');"></div>
+                        <div class="icon-wrapper"><i class="fas fa-bolt"></i></div>
+                        <div class="card-content">
+                            <h3>Mobile Legends Cheats</h3>
+                            <p>Level up faster with Mobile Legends cheats, unlock heroes, skins, and gain a tactical advantage over opponents.</p>
+                            <a href="/maintenance.html" class="btn-special">
+                                <span>View Cheats</span> <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="tag">Why Choose Us</span>
+                    <h2>SIRENHub Advantages</h2>
+                    <p>We are committed to providing the best digital services with a focus on performance, security, and customer satisfaction.</p>
+                </div>
+                <div class="features-professional-wrapper reveal">
+                    <div class="features-image">
+                        <img src="https://www.bing.com/th/id/OGC.fde6ab5b97150651ed8b1801818e70a2?r=0&o=7&pid=1.7&rm=3&rurl=https%3a%2f%2f4.bp.blogspot.com%2f-cky1QNMokgo%2fXAhyWhdAiBI%2fAAAAAAAACo8%2fdOFT3gLt9coAdYhmpsaUI2Qj8pBu-MCkgCLcBGAs%2fs1600%2f201305_datacenter_google_IDI_018-TWINKLE.gif&ehk=vPDpG7I3yK%2bnstONEDwTHF9eLpBfnuq59B9tuGDBGRc%3d" alt="Infrastruktur Jaringan Server HadesNetwork">
+                    </div>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <div class="icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div>
+                                <h3>High-Quality Cheats</h3>
+                                <p>We provide premium, well-tested cheats for popular online games to enhance your gameplay safely and efficiently.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                            <div>
+                                <h3>Top-Notch Security</h3>
+                                <p>All our cheats are secure and undetectable, protecting your account and ensuring a safe gaming experience.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="icon"><i class="fas fa-cogs"></i></div>
+                            <div>
+                                <h3>Easy to Use</h3>
+                                <p>Access and manage all cheats easily through our intuitive control panel and fully automated system.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="tag">What They Say</span>
+                    <h2>Real Experiences from Users</h2>
+                    <p>See what our loyal users say about the quality and reliability of our game cheats.</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card glass-card reveal">
+                        <div class="testimonial-header">
+                            <img src="https://ui-avatars.com/api/?name=Alex&background=8c52ff&color=fff&bold=true" alt="Avatar Alex">
+                            <div>
+                                <h4 class="testimonial-name">Alex</h4>
+                                <p class="testimonial-role">Pro Gamer</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-body">"Since using SIRENHub, my gameplay has improved dramatically. The cheats are reliable and safe to use!"</p>
+                    </div>
+                    <div class="testimonial-card glass-card reveal">
+                        <div class="testimonial-header">
+                            <img src="https://ui-avatars.com/api/?name=Jessica&background=8c52ff&color=fff&bold=true" alt="Avatar Jessica">
+                            <div>
+                                <h4 class="testimonial-name">Jessica</h4>
+                                <p class="testimonial-role">Online Gamer</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-body">"The cheats are easy to access and use. My gameplay experience is now much more fun and competitive!"</p>
+                    </div>
+                    <div class="testimonial-card glass-card reveal">
+                        <div class="testimonial-header">
+                            <img src="https://ui-avatars.com/api/?name=Ryan&background=8c52ff&color=fff&bold=true" alt="Avatar Ryan">
+                            <div>
+                                <h4 class="testimonial-name">Ryan</h4>
+                                <p class="testimonial-role">Competitive Gamer</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-body">"SIRENHub provides top-notch cheats that are both secure and effective. Highly recommended!"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       <section class="section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="tag">Frequently Asked Questions</span>
+                    <h2>Still Have Questions?</h2>
+                    <p>Find answers to the most common questions from our users.</p>
+                </div>
+                <div class="faq-container">
+                    <div class="faq-item glass-card reveal">
+                        <button class="faq-question">
+                            <span>What payment methods are accepted?</span>
+                            <i class="fas fa-chevron-down icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We accept various popular payment methods such as Bank Transfer (BCA, Mandiri, BRI), E-Wallets (GoPay, OVO, Dana, ShopeePay), and QRIS.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item glass-card reveal">
+                        <button class="faq-question">
+                            <span>How do I order cheats?</span>
+                            <i class="fas fa-chevron-down icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>You can order directly through the website by selecting the cheat package you want. Your access will be activated automatically once the payment is confirmed.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item glass-card reveal">
+                        <button class="faq-question">
+                            <span>How can I contact support?</span>
+                            <i class="fas fa-chevron-down icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>You can contact our support team via live chat on the website or submit a support ticket through the client panel. Our team is available 24/7 to help you.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
+                <div class="cta-card glass-card reveal">
+                    <i class="fas fa-rocket cta-icon"></i>
+                    <h2>Start Your Gaming Adventure</h2>
+                    <p>It only takes a few seconds to get your free key and access all our premium cheats. Join thousands of gamers now!</p>
+                    <div class="cta-actions">
+                        <a href="https://sfl.gl/qjUTr" class="btn btn-primary">
+                            <i class="fas fa-key"></i> Get Free Key
+                        </a>
+                        <a href="https://discord.gg/m5qdpgspRC" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-discord"></i> Join the Community
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col about">
+                    <a href="/index.html" class="footer-logo">
+                        <img src="https://via.placeholder.com/50" alt="SIRENHub Logo">
+                        <span class="logo-text"><span class="part1">SIREN</span><span class="part2">Hub</span></span>
+                    </a>
+                    <p class="footer-about-text">
+                        Leading platform providing premium cheats for online games, offering secure and reliable access for gamers worldwide.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://instagram.com/sirenhub" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://tiktok.com/@sirenhub" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://wa.me/6283114970578" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:support@sirenhub.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="/maintenance.html">Free Cheats</a></li>
+                        <li><a href="/maintenance.html">Premium Cheats</a></li>
+                        <li><a href="/maintenance.html">Cheat Tools</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="/maintenance.html">FAQ</a></li>
+                        <li><a href="/maintenance.html">Terms & Conditions</a></li>
+                        <li><a href="/maintenance.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> SIRENHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // Set current year automatically
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        setupAuthUI();
+        setupMobileSidebar();
+        setupActiveNavLinks();
+        setupFaqAccordion();
+        setupScrollAnimations();
+        setupFooterYear();
+        setupTypingEffect();
+        function setupAuthUI() {
+            const headerActions = document.querySelector('.header-actions');
+            const sidebar = document.getElementById('sidebar');
+
+            const mainLinksHTML = `<a href="/index.html">Home</a> <a href="/maintenance.html">Cheats</a> <a href="https://sfl.gl/qjUTr">Free Key</a>`;
+
+            // Ganti semua tombol login/daftar dengan tombol Join Discord
+            const discordButtonHTML = `<a href="https://discord.gg/m5qdpgspRC" target="_blank" class="btn btn-primary"><i class="fab fa-discord"></i> Join Discord</a>`;
+
+            // Header actions
+            headerActions.innerHTML = discordButtonHTML;
+
+            // Sidebar
+            sidebar.innerHTML = `
+                ${mainLinksHTML}
+                <div class="auth-buttons">
+                    ${discordButtonHTML}
+                </div>
+            `;
+        }
+
+        function handleLogout(e) { e.preventDefault(); localStorage.removeItem('hadesnetwork_token'); window.location.reload(); }
+        function setupMobileSidebar() { const toggleBtn = document.getElementById('toggleSidebar'); const sidebar = document.getElementById('sidebar'); const overlay = document.getElementById('overlay'); const toggle = () => { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }; toggleBtn.addEventListener('click', toggle); overlay.addEventListener('click', toggle); }
+        function setupActiveNavLinks() { const currentPagePath = window.location.pathname; document.querySelectorAll('.main-nav a, .sidebar a').forEach(link => { const linkPath = new URL(link.href, window.location.origin).pathname; if (linkPath === currentPagePath || (currentPagePath === '/' && (link.getAttribute('href') === '/index.html' || link.getAttribute('href') === '/'))) { link.classList.add('active-link'); } }); }
+        function setupFaqAccordion() { const faqItems = document.querySelectorAll('.faq-item'); faqItems.forEach(item => { const question = item.querySelector('.faq-question'); question.addEventListener('click', () => { item.classList.toggle('active'); }); }); }
+        function setupScrollAnimations() { const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1 }); document.querySelectorAll('.reveal').forEach(el => { observer.observe(el); }); }
+        function setupFooterYear() { document.getElementById('current-year').textContent = new Date().getFullYear(); }
+        function setupTypingEffect() {
+        const typedTextElement = document.getElementById('typed-text');
+        const descriptions = [
+            "Get the latest cheats and hacks for online games, all in one trusted platform.",
+            "Access premium cheats, unlock features, and boost your gameplay easily!",
+            "Looking for safe and reliable game cheats? SIRENHub has got you covered.",
+            "All-in-one platform for your online gaming cheats. Fast, secure, and trusted."
+        ];
+
+        let descriptionIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 50;
+        let deletingSpeed = 30;
+        let delayBeforeNext = 2000;
+
+        function typeWriter() {
+            const currentDescription = descriptions[descriptionIndex];
+
+            if (isDeleting) {
+                typedTextElement.textContent = currentDescription.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedTextElement.textContent = currentDescription.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let currentTypingSpeed = isDeleting ? deletingSpeed : typingSpeed;
+
+            if (!isDeleting && charIndex === currentDescription.length) {
+                currentTypingSpeed = delayBeforeNext;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                descriptionIndex = (descriptionIndex + 1) % descriptions.length;
+                currentTypingSpeed = typingSpeed;
+            }
+
+            setTimeout(typeWriter, currentTypingSpeed);
+        }
+
+        typeWriter();
+    }
+
+    // Jalankan efek typing
+    setupTypingEffect();
+
+    });
+    </script>
+</body>
+</html>

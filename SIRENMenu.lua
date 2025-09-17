@@ -5,7 +5,17 @@
 local data = _G.SIREN_Data or {}
 local Key = data.Key or "Unknown"
 local HWID = data.HWID or "Unknown"
+local Uplink = data.Uplink or "Unknown"
 local ExpireAt = data.ExpireAt or "Unknown"
+
+-- VALIDASI KEY
+if Key == "Unknown" then
+    -- Jika key tidak valid, tampilkan notifikasi dan hentikan eksekusi
+    Library:Notify("Please login your key first!", 5)
+
+    -- Bisa juga menonaktifkan menu sepenuhnya dengan return
+    return
+end
 
 local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
@@ -28,7 +38,7 @@ local Window = Library:CreateWindow({
 	-- Position and Size are also valid options here
 	-- but you do not need to define them unless you are changing them :)
 
-	Title = "SIREN HUB | " .. Key,
+	Title = "SIREN HUB | " .. Uplink,
 	Footer = "Version: 1.0.0",
 	Icon = nil,
 	NotifySide = "Right",
@@ -225,12 +235,6 @@ WalkTab:AddSlider("WalkSpeedSlider", {
         if hum and _G.walkActive then
             hum.WalkSpeed = Value
         end
-
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
-            Text = "Walk Speed set to " .. Value,
-            Duration = 3
-        })
     end,
 })
 
@@ -332,11 +336,6 @@ FlyTab:AddSlider("FlySpeedSlider", {
     Tooltip = "Adjust fly speed",
     Callback = function(Value)
         _G.flySpeed = Value
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
-            Text = "Fly Speed set to " .. Value,
-            Duration = 3
-        })
     end,
 })
 
@@ -354,7 +353,7 @@ local BypassToggle = RightGroupBox:AddToggle("BypassToggle", {
     Callback = function(Value)
         _G.BypassEnabled = Value
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = Value and "Bypass Activated!" or "Bypass Deactivated!",
             Duration = 5
         })
@@ -373,7 +372,7 @@ local GodmodeToggle = RightGroupBox:AddToggle("GodmodeToggle", {
     Callback = function(Value)
         _G.GodmodeEnabled = Value
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = Value and "Godmode Activated!" or "Godmode Deactivated!",
             Duration = 5
         })
@@ -406,7 +405,7 @@ local InfiniteJumpToggle = RightGroupBox:AddToggle("InfiniteJumpToggle", {
     Callback = function(Value)
         _G.InfiniteJumpEnabled = Value
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = Value and "Infinite Jump Activated!" or "Infinite Jump Deactivated!",
             Duration = 5
         })
@@ -449,20 +448,12 @@ local function toggleInvisibility(on)
         Seat.CFrame = savedpos
 
         setTransparency(char, 0.5)
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
-            Text = "Invisibility ON",
-            Duration = 3
-        })
+        Library:Notify("Invisibility Activated!", 5)
     else
         local invisChair = workspace:FindFirstChild("invischair")
         if invisChair then invisChair:Destroy() end
         setTransparency(char, 0)
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
-            Text = "Invisibility OFF",
-            Duration = 3
-        })
+        Library:Notify("Invisibility Activated!", 5)
     end
 end
 
@@ -530,11 +521,7 @@ end
 -- Function to check level before teleport
 local function canTeleport()
     if Level == "Free" then
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
-            Text = "Free users cannot use teleport!",
-            Duration = 3
-        })
+        Library:Notify("Free users can't use teleport!", 5)
         return false
     end
     return true
@@ -557,7 +544,7 @@ LeftDropdownGroupBox:AddDropdown("DombretDropdown", {
             teleportTo(CFrame.new(41.247673, 740.634216, 169.561218))
         end
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Value,
             Duration = 3
         })
@@ -598,7 +585,7 @@ LeftDropdownGroupBox:AddDropdown("BaeDropdown", {
             teleportTo(CFrame.new(156.748718, 827.008911, -1026.950317))
         end
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Value,
             Duration = 3
         })
@@ -619,7 +606,7 @@ LeftDropdownGroupBox:AddDropdown("SibuatanAntiDelayDropdown", {
             teleportTo(CFrame.new(5386.600586, 8109.058594, 2179.034424))
         end
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Value,
             Duration = 3
         })
@@ -659,7 +646,7 @@ do
                 local minutes = math.floor(remaining / 60)
                 local seconds = remaining % 60
                 game.StarterGui:SetCore("SendNotification", {
-                    Title = "JCloud Hub",
+                    Title = "SIRENHub",
                     Text = "Teleport cooldown! Wait " .. minutes .. "m " .. seconds .. "s.",
                     Duration = 5
                 })
@@ -674,7 +661,7 @@ do
 
             lastTeleport = now
             game.StarterGui:SetCore("SendNotification", {
-                Title = "JCloud Hub",
+                Title = "SIRENHub",
                 Text = "Teleported to " .. Value,
                 Duration = 3
             })
@@ -710,7 +697,7 @@ RightDropdownGroupBox:AddDropdown("AtinDropdown", {
             teleportTo(CFrame.new(694.734863, 2195.690430, 4010.594482))
         end
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Value,
             Duration = 3
         })
@@ -731,7 +718,7 @@ RightDropdownGroupBox:AddDropdown("LembayanaDropdown", {
             teleportTo(CFrame.new(-23508.648438, 6307.981934, -6962.814941))
         end
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Value,
             Duration = 3
         })
@@ -752,7 +739,7 @@ RightDropdownGroupBox:AddDropdown("PrauDropdown", {
             teleportTo(CFrame.new(-1364.789795, 481.025940, -1552.814941))
         end
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Value,
             Duration = 3
         })
@@ -774,7 +761,7 @@ do
             if now - lastTeleport < cooldown then
                 local remaining = math.floor(cooldown - (now - lastTeleport))
                 game.StarterGui:SetCore("SendNotification", {
-                    Title = "JCloud Hub",
+                    Title = "SIRENHub",
                     Text = "Teleport cooldown! Wait " .. remaining .. "s.",
                     Duration = 3
                 })
@@ -797,7 +784,7 @@ do
 
             lastTeleport = now
             game.StarterGui:SetCore("SendNotification", {
-                Title = "JCloud Hub",
+                Title = "SIRENHub",
                 Text = "Teleported to " .. Value,
                 Duration = 3
             })
@@ -814,19 +801,24 @@ local LeftGroupBox = Tabs.Tween:AddLeftGroupbox("Auto Walk", "boxes")
 -- ========================================
 -- Auto Walk Atin
 -- ========================================
+local function canWalk()
+    if Level == "Free" then
+        Library:Notify("Free users can't use autowalk!", 5)
+        return false
+    end
+    return true
+end
 
-local AtinWalk = LeftGroupBox:AddButton({
+local Atin = LeftGroupBox:AddButton({
     Text = "Mountain Atin",
     Func = function()
+        if not canWalk() then return end
+
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/SIRENHub/MountAtin/refs/heads/main/atin.lua"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/SRN_Atin.lua"))()
         end)
         if success then
-            game.StarterGui:SetCore("SendNotification", {
-                Title = "SIRENHub",
-                Text = "Atin.lua Loaded!",
-                Duration = 5
-            })
+            Library:Notify("Autowalk Loaded!", 5)
         else
             warn("[SIRENHub] Gagal load script:", err)
         end
@@ -841,7 +833,179 @@ local AtinWalk = LeftGroupBox:AddButton({
     Risky = false,
 })
 
+-- ========================================
+-- Auto Walk Atin
+-- ========================================
 
+-- Function to check level before teleport
+
+local Antartika = LeftGroupBox:AddButton({
+    Text = "Mountain Antartika",
+    Func = function()
+        if not canWalk() then return end
+
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/SRN_Antartika.lua"))()
+        end)
+        if success then
+            Library:Notify("Autowalk Loaded!", 5)
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Auto Walk Mount Antartika",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
+
+local Arunika = LeftGroupBox:AddButton({
+    Text = "Mountain Arunika",
+    Func = function()
+        if not canWalk() then return end
+        
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/SRN_Arunika.lua"))()
+        end)
+        if success then
+            Library:Notify("Autowalk Loaded!", 5)
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Auto Walk Mount Arunika",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
+
+local Batu = LeftGroupBox:AddButton({
+    Text = "Mountain Batu",
+    Func = function()
+        if not canWalk() then return end
+
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/SRN_Batu.lua"))()
+        end)
+        if success then
+            Library:Notify("Autowalk Loaded!", 5)
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Auto Walk Mount Batu",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
+
+local Daun = LeftGroupBox:AddButton({
+    Text = "Mountain Daun",
+    Func = function()
+        if not canWalk() then return end
+
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/SRN_Daun.lua"))()
+        end)
+        if success then
+            Library:Notify("Autowalk Loaded!", 5)
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Auto Walk Mount Daun",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
+
+local Lembayana = LeftGroupBox:AddButton({
+    Text = "Mountain Lembayana",
+    Func = function()
+        if not canWalk() then return end
+
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/SRN_Lembayana.lua"))()
+        end)
+        if success then
+            Library:Notify("Autowalk Loaded!", 5)
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Auto Walk Mount Lembayana",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
+
+local Yahayuk = LeftGroupBox:AddButton({
+    Text = "Mountain Yahayuk",
+    Func = function()
+        if not canWalk() then return end
+
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/SRN_Yahayuk.lua"))()
+        end)
+        if success then
+            Library:Notify("Autowalk Loaded!", 5)
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Auto Walk Mount Yahayuk",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
+
+local Ravika = LeftGroupBox:AddButton({
+    Text = "Mountain Ravika",
+    Func = function()
+        if not canWalk() then return end
+
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/SRN_Ravika.lua"))()
+        end)
+        if success then
+            Library:Notify("Autowalk Loaded!", 5)
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Auto Walk Mount Ravika",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
 
 -- Info kanan
 local RightGroupBox = Tabs.Tween:AddRightGroupbox("Tween Information")

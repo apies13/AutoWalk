@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>SIRENHub - Cheats Under Maintenance</title>
+    <meta name="description" content="Layanan Game Hosting di HadesNetwork sedang dalam perbaikan untuk peningkatan kualitas." />
+    
+    <meta name="author" content="HadesNetwork" />
+    <link rel="canonical" href="https://hadesnetwork.online/game-hosting.html" />
+    <meta name="robots" content="noindex, nofollow"> <meta name="theme-color" content="#7f3cff">
+    <link rel="icon" href="/Favicon_Transparent.png" type="image/png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        /* Menggunakan semua gaya CSS dari index.html untuk konsistensi */
+        :root {
+            --primary: #5271ff;
+            --accent: #8c52ff;
+            --gradient-main: linear-gradient(135deg, #16172D 0%, #1F1F3D 100%);
+            --gradient-btn: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+            --gradient-btn-hover: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            
+            --surface: #1A1B32;
+            --glass-bg: rgba(26, 27, 50, 0.7);
+            --glass-blur: blur(20px);
+            
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-border-hover: rgba(140, 82, 255, 0.7);
+            --warning: #ffc107;
+
+            --text-light: #EAEBF2;
+            --text-muted: #A0A3C2;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --transition: 0.4s cubic-bezier(.4, 0, .2, 1);
+            
+            --header-height: 70px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--gradient-main);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: url('https://media.hadesnetwork.online/abstract-bg-1.jpg') center center/cover no-repeat;
+            opacity: 0.1;
+            filter: blur(15px) brightness(1);
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        h1, h2, h3, h4 { margin: 0; font-weight: 700; } p { margin: 0; } ul { list-style: none; } a { text-decoration: none; color: inherit; }
+
+        /* General Components */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.8rem 1.8rem; border-radius: var(--radius-md); font-weight: 600; border: 1px solid transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all var(--transition); cursor: pointer; text-decoration: none; font-size: 1rem; }
+        .btn-primary { background: var(--gradient-btn); color: #fff; border-color: rgba(255,255,255,0.2); }
+        .btn-primary:hover { background: var(--gradient-btn-hover); box-shadow: 0 8px 25px rgba(140, 82, 255, 0.3); transform: translateY(-3px); }
+        .btn-secondary { color: var(--text-light); background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.15); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); }
+
+        /* Header & Nav */
+        header { position: sticky; top: 0; left: 0; width: 100%; height: var(--header-height); background: var(--glass-bg); backdrop-filter: var(--glass-blur); z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .header-content { display: flex; align-items: center; height: 100%; position: relative; }
+        .header-content > nav { position: absolute; left: 50%; transform: translateX(-50%); }
+        .header-actions { margin-left: auto; }
+        .logo img { height: 40px; }
+        .main-nav { display: flex; list-style: none; }
+        .main-nav > li { position: relative; }
+        .main-nav > li > a { display: flex; align-items: center; gap: 0.3rem; color: var(--text-muted); font-weight: 500; padding: 0.5rem 1rem; border-radius: var(--radius-md); transition: all var(--transition); height: 40px; }
+        .main-nav > li > a:hover, .main-nav a.active-link { color: #fff; background: rgba(255,255,255,0.08); }
+        .main-nav > li.has-megamenu > a::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.6rem; margin-left: 0.4rem; transition: transform var(--transition); }
+        .main-nav > li.has-megamenu:hover > a::after { transform: rotate(180deg); }
+        .mega-menu-wrapper { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); padding-top: 1rem; opacity: 0; visibility: hidden; transform-origin: top center; transition: all var(--transition); z-index: 999; }
+        .main-nav > li.has-megamenu:hover .mega-menu-wrapper { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .mega-menu-content { width: 500px; background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--card-border); box-shadow: var(--shadow); padding: 1.5rem; }
+        .mega-menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .mega-menu-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: var(--radius-md); transition: background var(--transition); }
+        .mega-menu-item:hover { background: rgba(255, 255, 255, 0.05); }
+        .mega-menu-item .icon { font-size: 1.5rem; color: var(--accent); flex-shrink: 0; }
+        .mega-menu-item .title { font-weight: 600; color: var(--text-light); margin-bottom: 0.25rem; }
+        .mega-menu-item .description { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        .sidebar { position: fixed; top: 0; left: -100%; width: 90%; max-width: 320px; height: 100vh; background: var(--surface); z-index: 1200; transition: left var(--transition); padding: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+        .sidebar.active { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.3); }
+        .sidebar a { color: var(--text-light); font-weight: 600; padding: 1rem; border-radius: var(--radius-lg); transition: background var(--transition); font-size: 1.1rem; }
+        .sidebar a:hover, .sidebar a.active-link { background: var(--gradient-btn); }
+        .sidebar .auth-buttons { margin-top: auto; display: flex; flex-direction: column; gap: 1rem; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.6); z-index: 1100; opacity: 0; pointer-events: none; transition: opacity var(--transition); }
+        .overlay.active { opacity: 1; pointer-events: auto; }
+        .hamburger-toggle { display: none; background: none; border: none; color: var(--accent); font-size: 1.8rem; cursor: pointer; }
+        
+        /* Konten Halaman Placeholder */
+        .page-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - var(--header-height));
+            text-align: center;
+        }
+        .page-placeholder h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .page-placeholder p { font-size: 1.2rem; color: var(--text-muted); }
+
+        /* Modal Perbaikan */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .modal-content {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            max-width: 550px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow);
+        }
+        .modal-icon { font-size: 3rem; color: var(--warning); margin-bottom: 1.5rem; }
+        .modal-content h2 { font-size: 1.8rem; color: var(--text-light); margin-bottom: 1rem; }
+        .modal-content p { color: var(--text-muted); margin-bottom: 2rem; line-height: 1.7; }
+        .modal-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+        /* Footer */
+        footer { padding: 5rem 0 2.5rem 0; border-top: 1px solid var(--card-border); background: var(--surface); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 4rem; }
+        /* ... sisa gaya footer ... */
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-content > nav, .header-actions { display: none; }
+            .hamburger-toggle { display: block; margin-left: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        </header>
+
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="overlay" id="overlay"></div>
+    
+    <div id="maintenance-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-icon"><i class="fas fa-tools"></i></div>
+            <h2>Sorry cheats under maintenance.</h2>
+            <p>Sorry, SIRENHub is currently under maintenance and upgrading our systems. For now, all purchases must be made manually through our Discord.</p>
+            <div class="modal-buttons">
+                <a href="/index.html" class="btn btn-secondary">Back to Home</a>
+                <a href="https://dsc.gg/sirenhub" target="_blank" class="btn btn-primary"><i class="fab fa-discord"></i> Contact Discord</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="page-placeholder">
+            <div class="container">
+                <h1>SIRENHub</h1>
+                <p>This site still upgrading to new experience.</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        </footer>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Logika Universal (Header, Footer, Mobile Nav)
+        const setupGlobalUI = () => {
+            const header = document.querySelector('header');
+            const footer = document.querySelector('footer');
+            if (header) {
+                header.innerHTML = `<div class="container header-content"><a href="/index.html" class="logo"><img src="https://media.hadesnetwork.online/Favicon_Transparent-removebg-preview.png" alt="HadesNetwork Logo" /></a><nav><ul class="main-nav"><li class="has-megamenu"><a href="/game-hosting.html">Game Hosting</a><div class="mega-menu-wrapper"><div class="mega-menu-content"><div class="mega-menu-grid"><a href="/samp-hosting.html" class="mega-menu-item"><div class="icon"><i class="fas fa-server"></i></div><div><div class="title">SAMP Hosting</div><div class="description">Performa tinggi untuk server San Andreas Multiplayer Anda.</div></div></a><a href="/minecraft-hosting.html" class="mega-menu-item"><div class="icon"><i class="fas fa-cube"></i></div><div><div class="title">Minecraft Hosting</div><div class="description">Server anti-lag untuk petualangan Minecraft tanpa batas.</div></div></a><a href="/vps-hosting.html" class="mega-menu-item"><div class="icon"><i class="fas fa-cloud"></i></div><div><div class="title">VPS Hosting</div><div class="description">Kontrol penuh dengan Virtual Private Server yang andal.</div></div></a><a href="/palworld-hosting.html" class="mega-menu-item"><div class="icon"><i class="fas fa-paw"></i></div><div><div class="title">Palworld Hosting</div><div class="description">Hosting cepat dan stabil untuk server game Palworld.</div></div></a></div></div></div></li><li><a href="/social-followers.html">SMM</a></li><li><a href="/topup.html">Top Up</a></li></ul></nav><div class="header-actions"></div><button class="hamburger-toggle" id="toggleSidebar" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button></div>`;
+            }
+            if (footer) {
+                // Footer sengaja dikosongkan karena halaman maintenance
+                footer.style.display = 'none';
+            }
+        };
+        
+        setupGlobalUI();
+        setupAuthUI();
+        setupMobileSidebar();
+        setupActiveNavLinks();
+        
+        function setupAuthUI() { 
+            const token = localStorage.getItem('hadesnetwork_token'); 
+            const isLoggedIn = !!token; 
+            const headerActions = document.querySelector('.header-actions'); 
+            const sidebar = document.getElementById('sidebar'); 
+            const mainLinksHTML = `<a href="/index.html">Beranda</a> <a href="/game-hosting.html">Game Hosting</a> <a href="/social-followers.html">SMM</a> <a href="/topup.html">Top Up</a>`; 
+            if (headerActions) {
+                if (isLoggedIn) { 
+                    headerActions.innerHTML = `<a href="/order.html" class="btn btn-secondary">Akun Saya</a> <a href="#" id="logout-btn" class="btn btn-primary">Logout</a>`; 
+                    document.getElementById('logout-btn').addEventListener('click', handleLogout); 
+                } else { 
+                    headerActions.innerHTML = `<a href="/login.html" class="btn btn-secondary">Login</a> <a href="/register.html" class="btn btn-primary">Daftar</a>`; 
+                }
+            }
+             if (sidebar) {
+                 sidebar.innerHTML = `${mainLinksHTML} <div class="auth-buttons">${isLoggedIn ? `<a href="/order.html" class="btn btn-secondary">Akun Saya</a> <a href="#" id="sidebar-logout-btn" class="btn btn-primary">Logout</a>` : `<a href="/login.html" class="btn btn-secondary">Login</a> <a href="/register.html" class="btn btn-primary">Daftar</a>`}</div>`;
+                 if (isLoggedIn) {
+                     document.getElementById('sidebar-logout-btn').addEventListener('click', handleLogout);
+                 }
+            }
+        }
+
+        function handleLogout(e) { e.preventDefault(); localStorage.removeItem('hadesnetwork_token'); window.location.reload(); }
+        function setupMobileSidebar() { const toggleBtn = document.getElementById('toggleSidebar'); const sidebar = document.getElementById('sidebar'); const overlay = document.getElementById('overlay'); if(toggleBtn) {const toggle = () => { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }; toggleBtn.addEventListener('click', toggle); overlay.addEventListener('click', toggle);} }
+        function setupActiveNavLinks() { const currentPagePath = window.location.pathname; document.querySelectorAll('.main-nav a, .sidebar a').forEach(link => { const linkPath = new URL(link.href, window.location.origin).pathname; if (linkPath.includes('game-hosting')) { link.classList.add('active-link'); } }); }
+    });
+    </script>
+</body>
+</html>

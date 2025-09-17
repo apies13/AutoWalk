@@ -1,11 +1,11 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "JCloud Hub UI",
+   Name = "SIRENHub UI",
    Icon = 0,
-   LoadingTitle = "JCloud Hub UI",
+   LoadingTitle = "SIRENHub UI",
    LoadingSubtitle = "by r4kshit",
-   ShowText = "JCloud Hub",
+   ShowText = "SIRENHub",
    Theme = "Default",
    ToggleUIKeybind = "K",
 
@@ -23,7 +23,7 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = false,
    KeySettings = {
-      Title = "JCloud Hub",
+      Title = "SIRENHub",
       Subtitle = "Key System",
       Note = "No method of obtaining the key is provided",
       FileName = "Key",
@@ -73,7 +73,7 @@ local function toggleInvisibility(on)
         setTransparency(char, 0.5)
 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Invisibility ON",
             Duration = 3
         })
@@ -83,7 +83,7 @@ local function toggleInvisibility(on)
         setTransparency(char, 0)
 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Invisibility OFF",
             Duration = 3
         })
@@ -117,7 +117,7 @@ local FlyToggle = MainTab:CreateToggle({
 
         if Value then
             game.StarterGui:SetCore("SendNotification", {
-                Title = "JCloud Hub",
+                Title = "SIRENHub",
                 Text = "Fly Activated!",
                 Duration = 5
             })
@@ -163,7 +163,7 @@ local FlyToggle = MainTab:CreateToggle({
             end)
         else
             game.StarterGui:SetCore("SendNotification", {
-                Title = "JCloud Hub",
+                Title = "SIRENHub",
                 Text = "Fly Deactivated!",
                 Duration = 5
             })
@@ -193,7 +193,7 @@ local FlySlider = MainTab:CreateSlider({
     Callback = function(Value)
         _G.flySpeed = Value
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Fly Speed set to " .. Value,
             Duration = 3
         })
@@ -215,13 +215,13 @@ local InfiniteJumpToggle = MainTab:CreateToggle({
 
         if Value then
             game.StarterGui:SetCore("SendNotification", {
-                Title = "JCloud Hub",
+                Title = "SIRENHub",
                 Text = "Infinite Jump Activated!",
                 Duration = 5
             })
         else
             game.StarterGui:SetCore("SendNotification", {
-                Title = "JCloud Hub",
+                Title = "SIRENHub",
                 Text = "Infinite Jump Deactivated!",
                 Duration = 5
             })
@@ -279,7 +279,7 @@ local SpeedSlider = MainTab:CreateSlider({
             end
         end
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Walk Speed set to " .. Value,
             Duration = 3
         })
@@ -319,7 +319,7 @@ local Dropdown = TeleTab:CreateDropdown({
         end
 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Options[1],
             Duration = 3
         })
@@ -349,7 +349,7 @@ local Dropdown = TeleTab:CreateDropdown({
         end
 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Options[1],
             Duration = 3
         })
@@ -411,7 +411,7 @@ local Dropdown = TeleTab:CreateDropdown({
             local seconds = remaining % 60
 
             game.StarterGui:SetCore("SendNotification", {
-                Title = "JCloud Hub",
+                Title = "SIRENHub",
                 Text = "Teleport cooldown! Tunggu " .. minutes .. "m " .. seconds .. "s lagi.",
                 Duration = 5
             })
@@ -427,7 +427,7 @@ local Dropdown = TeleTab:CreateDropdown({
         lastTeleport = now -- reset timer cooldown
 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Options[1],
             Duration = 3
         })
@@ -469,7 +469,7 @@ local Dropdown = TeleTab:CreateDropdown({
         end
 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Options[1],
             Duration = 3
         })
@@ -499,7 +499,7 @@ local Dropdown = TeleTab:CreateDropdown({
         end
 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Options[1],
             Duration = 3
         })
@@ -529,7 +529,7 @@ local Dropdown = TeleTab:CreateDropdown({
         end
 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Options[1],
             Duration = 3
         })
@@ -567,7 +567,7 @@ local Dropdown = TeleTab:CreateDropdown({
         end
 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "JCloud Hub",
+            Title = "SIRENHub",
             Text = "Teleported to " .. Options[1],
             Duration = 3
         })
@@ -579,7 +579,7 @@ local Dropdown = TeleTab:CreateDropdown({
 -- NOTIFIKASI AWAL
 -------------------------------------------------
 Rayfield:Notify({
-   Title = "JCloud HUB",
+   Title = "SIRENHub",
    Content = "Thank you for purchase this script!",
    Duration = 6.5,
    Image = 4483362458,
