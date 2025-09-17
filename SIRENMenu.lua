@@ -466,6 +466,31 @@ local InvisibleToggle = RightGroupBox:AddToggle("InvisibleToggle", {
     end,
 })
 
+local FlyMobile = RightGroupBox:AddButton({
+    Text = "Flying for Mobile",
+    Func = function()
+        if not canWalk() then return end
+
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/FlyMobile.lua"))()
+        end)
+        if success then
+            Library:Notify("FlyMobile Loaded!", 5)
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "FlyMobile",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
+
+
 
 
 -- Options is a table added to getgenv() by the library
