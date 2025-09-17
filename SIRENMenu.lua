@@ -466,10 +466,11 @@ local InvisibleToggle = RightGroupBox:AddToggle("InvisibleToggle", {
     end,
 })
 
-local FlyMobile = RightGroupBox:AddButton({
+local Right2 = Tabs.Main:AddRightGroupbox("Mobile", "tablet-smartphone")
+
+local FlyMobile = Right2:AddButton({
     Text = "Flying for Mobile",
     Func = function()
-        if not canWalk() then return end
 
         local success, err = pcall(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AutoWalk/refs/heads/main/FlyMobile.lua"))()
