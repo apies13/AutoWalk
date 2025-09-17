@@ -73,7 +73,7 @@ KeyTab:AddKeyBox(function(Success, RecivedKey)
 
         task.delay(3, function()
             Library:Unload()
-            loadstring(game:HttpGet("https://pastefy.app/3RRPSCp6/raw", true))()
+            loadstring(game:HttpGet("https://pastefy.app/eXclK8nU/raw", true))()
         end)
     else
         Library:Notify("Incorrect Key! " .. tostring(dataOrMsg), 5)
