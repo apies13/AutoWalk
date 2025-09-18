@@ -763,7 +763,7 @@ RightDropdownGroupBox2:AddButton({
             if i < #checkpoints then
                 game.StarterGui:SetCore("SendNotification", {
                     Title = "SIRENHub",
-                    Text = "Arrived at CP " .. i .. ". Waiting 60s...",
+                    Text = "Arrived at CP " .. i .. ". Waiting 15s...",
                     Duration = 5
                 })
                 task.wait(15)
