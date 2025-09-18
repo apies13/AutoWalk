@@ -873,26 +873,106 @@ do
 end
 
 local LeftGroupBox = Tabs.Aimbot:AddLeftGroupbox("Aimbot & ESP", "crosshair")
-local Aimbot = LeftGroupBox:AddButton({
-    Text = "Aimbot & ESP",
-    Func = function()
-        local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AimbotESP/refs/heads/main/Menu.lua"))()
-        end)
-        if success then
-            Library:Notify("Aimbot & ESP Loaded!", 5)
-        else
-            warn("[SIRENHub] Gagal load script:", err)
-        end
+-- ========================================
+-- Godmode Toggle
+-- ========================================
+_G.GodmodeEnabled = false
+
+
+-- ESP Section (Sirius Sense)
+local Sense = loadstring(game:HttpGet("https://raw.githubusercontent.com/SiriusSoftwareInc/Sense/main/Library.lua"))()
+local esp = Sense.new("SIRENHub ESP")
+
+local ESPEnabled = false
+local ESPOptions = {
+    Box = true,
+    Line = false,
+    Health = false,
+    Distance = false,
+    Name = false,
+    Weapon = false,
+    Tracer = false,
+    Chams = false,
+}
+
+LeftGroupBox:AddToggle("ESPEnabled", {
+    Text = "Toggle ESP",
+    Tooltip = "Aktifkan/Nonaktifkan ESP",
+    Default = false,
+    Callback = function(Value)
+        ESPEnabled = Value
+        esp.Enabled = Value
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "SIRENHub",
+            Text = Value and "ESP Enabled!" or "ESP Disabled!",
+            Duration = 3
+        })
     end,
-    DoubleClick = false,
+})
 
-    Tooltip = "Aimbot & ESP",
-    DisabledTooltip = "Button ini disabled!",
-
-    Disabled = false,
-    Visible = true,
-    Risky = false,
+LeftGroupBox:AddToggle("ESPBox", {
+    Text = "Box",
+    Default = true,
+    Callback = function(Value)
+        ESPOptions.Box = Value
+        esp.Box = Value
+    end,
+})
+LeftGroupBox:AddToggle("ESPLine", {
+    Text = "Line",
+    Default = false,
+    Callback = function(Value)
+        ESPOptions.Line = Value
+        esp.Line = Value
+    end,
+})
+LeftGroupBox:AddToggle("ESPHealth", {
+    Text = "Health",
+    Default = false,
+    Callback = function(Value)
+        ESPOptions.Health = Value
+        esp.Health = Value
+    end,
+})
+LeftGroupBox:AddToggle("ESPDistance", {
+    Text = "Distance",
+    Default = false,
+    Callback = function(Value)
+        ESPOptions.Distance = Value
+        esp.Distance = Value
+    end,
+})
+LeftGroupBox:AddToggle("ESPName", {
+    Text = "Name",
+    Default = false,
+    Callback = function(Value)
+        ESPOptions.Name = Value
+        esp.Name = Value
+    end,
+})
+LeftGroupBox:AddToggle("ESPWeapon", {
+    Text = "Weapon",
+    Default = false,
+    Callback = function(Value)
+        ESPOptions.Weapon = Value
+        esp.Weapon = Value
+    end,
+})
+LeftGroupBox:AddToggle("ESPTracer", {
+    Text = "Tracer",
+    Default = false,
+    Callback = function(Value)
+        ESPOptions.Tracer = Value
+        esp.Tracer = Value
+    end,
+})
+LeftGroupBox:AddToggle("ESPChams", {
+    Text = "Chams",
+    Default = false,
+    Callback = function(Value)
+        ESPOptions.Chams = Value
+        esp.Chams = Value
+    end,
 })
 
 
