@@ -740,9 +740,9 @@ RightDropdownGroupBox:AddDropdown("MerapiDropdown", {
     Callback = function(Value)
         if not canTeleport() then return end
         if Value == "Spawn" then
-            teleportTo(CFrame.new(-2065.570557, 1870.457275, -275.846008))
-        elseif Value == "Summit" then
             teleportTo(CFrame.new(-4242.708496, 16.117191, 2315.105957))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(-2065.570557, 1870.457275, -275.846008))
         end
         game.StarterGui:SetCore("SendNotification", {
             Title = "SIRENHub",
