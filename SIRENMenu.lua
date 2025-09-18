@@ -39,7 +39,7 @@ local Window = Library:CreateWindow({
 	-- but you do not need to define them unless you are changing them :)
 
 	Title = "SIREN HUB | " .. Uplink,
-	Footer = "Version: 1.0.0",
+	Footer = "Version: 1.0.2",
 	Icon = nil,
 	NotifySide = "Right",
 	ShowCustomCursor = true,
@@ -58,7 +58,7 @@ local Tabs = {
 	Main = Window:AddTab("General", "house"),
 	Teleports = Window:AddTab("Teleport", "map-pin"),
     Tween = Window:AddTab("Auto Walk", "rewind"),
-    Aimbot = Window:AddTab("Aimbot", "crosshair"),
+    Aimbot = Window:AddTab("ESP & Aimbot", "crosshair"),
 	-- Key = Window:AddKeyTab("Key System"),
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
@@ -641,7 +641,7 @@ LeftDropdownGroupBox:AddDropdown("SibuatanAntiDelayDropdown", {
 
 -- Mount Sibuatan (with 30-minute cooldown)
 do
-    local cooldown = 30 * 60
+    local cooldown = 50 * 60
     local lastTeleport = 0
     local CooldownLabel = LeftDropdownGroupBox:AddLabel("Cooldown: Ready ✅")
 
@@ -720,11 +720,50 @@ RightDropdownGroupBox:AddDropdown("AtinDropdown", {
         elseif Value == "Pos 23" then
             teleportTo(CFrame.new(-423.112488, 1710.612183, 3419.230225))
         elseif Value == "Summit" then
-            teleportTo(CFrame.new(694.734863, 2195.690430, 4010.594482))
+            teleportTo(CFrame.new(830.440979, 2183.325928, 3948.415527))
         end
         game.StarterGui:SetCore("SendNotification", {
             Title = "SIRENHub",
             Text = "Teleported to " .. Value,
+            Duration = 3
+        })
+    end,
+})
+
+-- Mount Arunika
+RightDropdownGroupBox:AddDropdown("ArunikaDropdown", {
+    Values = {"Pos 1", "Pos 2", "Pos 3", "Pos 4", "Pos 5", "Summit"},
+    Default = 1,
+    Text = "Mount Arunika",
+    Tooltip = "Tween Mount Arunika",
+    Callback = function(Value)
+        if not canTeleport() then return end
+        local targetPos
+        if Value == "Pos 1" or Value == "Pos 2" then
+            targetPos = Vector3.new(136.385025, 142.925339, -174.941727)
+        elseif Value == "Pos 3" then
+            targetPos = Vector3.new(476.540344, 170.957611, -939.659912)
+        elseif Value == "Pos 4" then
+            targetPos = Vector3.new(930.922485, 134.529999, -626.021545)
+        elseif Value == "Pos 5" then
+            targetPos = Vector3.new(923.322021, 102.815964, 278.812378)
+        elseif Value == "Summit" then
+            targetPos = Vector3.new(255.383560, 326.390808, 707.520874)
+        end
+        if not targetPos then return end
+
+        local player = game.Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+
+        local tweenInfo = TweenInfo.new(3, Enum.EasingStyle.Linear)
+        local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
+        tween:Play()
+
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "SIRENHub",
+            Text = "Tweening to " .. Value,
             Duration = 3
         })
     end,
@@ -817,6 +856,29 @@ do
         end,
     })
 end
+
+local LeftGroupBox = Tabs.Aimbot:AddLeftGroupbox("Aimbot & ESP", "crosshair")
+local Aimbot = LeftGroupBox:AddButton({
+    Text = "Aimbot & ESP",
+    Func = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/apies13/AimbotESP/refs/heads/main/Menu.lua"))()
+        end)
+        if success then
+            Library:Notify("Aimbot & ESP Loaded!", 5)
+        else
+            warn("[SIRENHub] Gagal load script:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Aimbot & ESP",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
 
 
 --===============================

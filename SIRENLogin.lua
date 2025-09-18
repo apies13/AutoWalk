@@ -2,7 +2,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/deivi
 
 local Window = Library:CreateWindow({
     Title = "SIRENHUB",
-    Footer = "Version: 1.0.0", --small text in the bottom of page
+    Footer = "Version: 1.0.2", --small text in the bottom of page
     ToggleKeybind = Enum.KeyCode.RightControl,
     Center = true,
     AutoShow = true,
