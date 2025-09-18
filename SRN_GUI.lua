@@ -207,7 +207,7 @@ end)
 
 -- DISCORD BUTTON FUNCTION
 DiscordBtn.MouseButton1Click:Connect(function()
-	setclipboard("https://discord.gg/yourserver")
+	setclipboard("https://discord.gg/q2nhZGbKtE")
 	game.StarterGui:SetCore("SendNotification", {
 		Title = "SIRENHUB",
 		Text = "Discord link copied!",

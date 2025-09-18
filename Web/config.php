@@ -23,5 +23,5 @@ try {
 // Discord / Other settings
 // ============================
 
-define('DISCORD_LINK', 'https://discord.gg/yourserver'); // ganti dengan link Discord resmi
+define('DISCORD_LINK', 'https://discord.gg/q2nhZGbKtE'); // ganti dengan link Discord resmi
 ?>
