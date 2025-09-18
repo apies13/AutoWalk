@@ -766,7 +766,7 @@ RightDropdownGroupBox2:AddButton({
                     Text = "Arrived at CP " .. i .. ". Waiting 60s...",
                     Duration = 5
                 })
-                task.wait(60)
+                task.wait(15)
             else
                 game.StarterGui:SetCore("SendNotification", {
                     Title = "SIRENHub",
