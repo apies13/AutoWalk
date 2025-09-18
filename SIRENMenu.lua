@@ -535,6 +535,7 @@ LeftGroupBox:AddDivider()
 -- =========================
 local LeftDropdownGroupBox = Tabs.Teleports:AddLeftGroupbox("Teleports 1", "boxes")
 local RightDropdownGroupBox = Tabs.Teleports:AddRightGroupbox("Teleports 2", "boxes")
+local RightDropdownGroupBox2 = Tabs.Teleports:AddRightGroupbox("Tween", "boxes")
 
 local function teleportTo(cframe)
     local player = game.Players.LocalPlayer
@@ -731,44 +732,56 @@ RightDropdownGroupBox:AddDropdown("AtinDropdown", {
 })
 
 -- Mount Arunika
-RightDropdownGroupBox:AddDropdown("ArunikaDropdown", {
-    Values = {"Pos 1", "Pos 2", "Pos 3", "Pos 4", "Pos 5", "Summit"},
-    Default = 1,
-    Text = "Mount Arunika",
-    Tooltip = "Tween Mount Arunika",
-    Callback = function(Value)
+-- Button: Tween ke 6 koordinat Arunika berurutan, berhenti 1 menit di setiap titik
+RightDropdownGroupBox2:AddButton({
+    Text = "Tween All Arunika Checkpoints",
+    Func = function()
         if not canTeleport() then return end
-        local targetPos
-        if Value == "Pos 1" then
-            targetPos = Vector3.new(136.385025, 142.925339, -174.941727)
-        elseif Value == "Pos 2" then
-            targetPos = Vector3.new(326.884338, 90.939461, -433.000580)
-        elseif Value == "Pos 3" then
-            targetPos = Vector3.new(476.540344, 170.957611, -939.659912)
-        elseif Value == "Pos 4" then
-            targetPos = Vector3.new(930.922485, 134.529999, -626.021545)
-        elseif Value == "Pos 5" then
-            targetPos = Vector3.new(923.322021, 102.815964, 278.812378)
-        elseif Value == "Summit" then
-            targetPos = Vector3.new(255.383560, 326.390808, 707.520874)
-        end
-        if not targetPos then return end
-
+        local checkpoints = {
+            Vector3.new(136.385025, 142.925339, -174.941727), -- Pos 1
+            Vector3.new(326.884338, 90.939461, -433.000580),  -- Pos 2
+            Vector3.new(476.540344, 170.957611, -939.659912), -- Pos 3
+            Vector3.new(930.922485, 134.529999, -626.021545), -- Pos 4
+            Vector3.new(923.322021, 102.815964, 278.812378),  -- Pos 5
+            Vector3.new(255.383560, 326.390808, 707.520874),  -- Summit
+        }
         local player = game.Players.LocalPlayer
         local char = player.Character or player.CharacterAdded:Wait()
         local hrp = char and char:FindFirstChild("HumanoidRootPart")
         if not hrp then return end
-
-        local tweenInfo = TweenInfo.new(3, Enum.EasingStyle.Linear)
-        local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
-        tween:Play()
-
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "SIRENHub",
-            Text = "Tweening to " .. Value,
-            Duration = 3
-        })
+        local TweenService = game:GetService("TweenService")
+        for i, pos in ipairs(checkpoints) do
+            local tweenInfo = TweenInfo.new(3, Enum.EasingStyle.Linear)
+            local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(pos)})
+            tween:Play()
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "SIRENHub",
+                Text = "Tweening to Arunika CP " .. i,
+                Duration = 3
+            })
+            tween.Completed:Wait()
+            if i < #checkpoints then
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "SIRENHub",
+                    Text = "Arrived at CP " .. i .. ". Waiting 60s...",
+                    Duration = 5
+                })
+                task.wait(60)
+            else
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "SIRENHub",
+                    Text = "Arrived at Summit!",
+                    Duration = 5
+                })
+            end
+        end
     end,
+    DoubleClick = false,
+    Tooltip = "Tween ke semua CP Arunika (berhenti 1 menit tiap CP)",
+    DisabledTooltip = "Button ini disabled!",
+    Disabled = false,
+    Visible = true,
+    Risky = false,
 })
 
 -- Mount Lembayana
