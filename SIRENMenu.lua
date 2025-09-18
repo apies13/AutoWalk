@@ -708,34 +708,27 @@ LeftDropdownGroupBox:AddLabel(
 -- =========================
 -- RIGHT GROUPBOX TELEPORTS
 -- =========================
-local AtinSummitRejoinBtn = RightDropdownGroupBox:AddButton({
-    Text = "Teleport Ke Pos 23 - Summit - Rejoin tanpa keluar map",
-    Func = function()
+-- Mount Atin
+RightDropdownGroupBox:AddDropdown("AtinDropdown", {
+    Values = {"Spawn", "Pos 23", "Summit"},
+    Default = 1,
+    Text = "Mount Atin",
+    Tooltip = "Teleport Mount Atin",
+    Callback = function(Value)
         if not canTeleport() then return end
-        local player = game.Players.LocalPlayer
-        local char = player.Character or player.CharacterAdded:Wait()
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        if not hrp then return end
-        -- Teleport ke Pos 23
-        hrp.CFrame = CFrame.new(-423.112488, 1710.612183, 3419.230225)
-        Library:Notify("Teleported to Pos 23!", 3)
-        task.wait(1)
-        -- Teleport ke Summit
-        hrp.CFrame = CFrame.new(830.440979, 2183.325928, 3948.415527)
-        Library:Notify("Teleported to Summit!", 3)
-        -- Auto rejoin tanpa keluar map: reload karakter
-        local humanoid = char:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            humanoid.Health = 0
-            Library:Notify("Auto rejoin: Character respawned!", 5)
+        if Value == "Spawn" then
+            teleportTo(CFrame.new(10.996780, 60.998020, -964.791565))
+        elseif Value == "Pos 23" then
+            teleportTo(CFrame.new(-423.112488, 1710.612183, 3419.230225))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(830.440979, 2183.325928, 3948.415527))
         end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "SIRENHub",
+            Text = "Teleported to " .. Value,
+            Duration = 3
+        })
     end,
-    DoubleClick = false,
-    Tooltip = "Teleport ke Pos 23, Summit, lalu auto rejoin tanpa keluar map",
-    DisabledTooltip = "Button ini disabled!",
-    Disabled = false,
-    Visible = true,
-    Risky = false,
 })
 
 -- Mount Arunika
