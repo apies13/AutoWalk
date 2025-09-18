@@ -731,6 +731,27 @@ RightDropdownGroupBox:AddDropdown("AtinDropdown", {
     end,
 })
 
+-- Mount Merapi
+RightDropdownGroupBox:AddDropdown("MerapiDropdown", {
+    Values = {"Spawn", "Summit"},
+    Default = 1,
+    Text = "Mount Merapi",
+    Tooltip = "Teleport Mount Merapi",
+    Callback = function(Value)
+        if not canTeleport() then return end
+        if Value == "Spawn" then
+            teleportTo(CFrame.new(-2065.570557, 1870.457275, -275.846008))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(-4242.708496, 16.117191, 2315.105957))
+        end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "SIRENHub",
+            Text = "Teleported to " .. Value,
+            Duration = 3
+        })
+    end,
+})
+
 -- Mount Arunika
 -- Button: Tween ke 6 koordinat Arunika berurutan, berhenti 1 menit di setiap titik
 RightDropdownGroupBox2:AddButton({
