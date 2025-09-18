@@ -568,7 +568,7 @@ LeftDropdownGroupBox:AddDropdown("DombretDropdown", {
         if Value == "Spawn" then
             teleportTo(CFrame.new(489.839050, 120.997307, 762.160034))
         elseif Value == "Summit" then
-            teleportTo(CFrame.new(41.247673, 740.634216, 169.561218))
+            teleportTo(CFrame.new(-587.244629, 742.720276, 210.383896))
         end
         game.StarterGui:SetCore("SendNotification", {
             Title = "SIRENHub",
