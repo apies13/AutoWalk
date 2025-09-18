@@ -739,8 +739,10 @@ RightDropdownGroupBox:AddDropdown("ArunikaDropdown", {
     Callback = function(Value)
         if not canTeleport() then return end
         local targetPos
-        if Value == "Pos 1" or Value == "Pos 2" then
+        if Value == "Pos 1" then
             targetPos = Vector3.new(136.385025, 142.925339, -174.941727)
+        elseif Value == "Pos 2" then
+            targetPos = Vector3.new(326.884338, 90.939461, -433.000580)
         elseif Value == "Pos 3" then
             targetPos = Vector3.new(476.540344, 170.957611, -939.659912)
         elseif Value == "Pos 4" then
