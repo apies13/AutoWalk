@@ -39,7 +39,7 @@ local Window = Library:CreateWindow({
 	-- but you do not need to define them unless you are changing them :)
 
 	Title = "SIREN HUB | " .. Uplink,
-	Footer = "Version: 1.0.2",
+	Footer = "Made by R4kshit",
 	Icon = nil,
 	NotifySide = "Right",
 	ShowCustomCursor = true,
@@ -755,7 +755,7 @@ RightDropdownGroupBox:AddDropdown("MerapiDropdown", {
 -- Mount Arunika
 -- Button: Tween ke 6 koordinat Arunika berurutan, berhenti 1 menit di setiap titik
 RightDropdownGroupBox2:AddButton({
-    Text = "Tween All Arunika Checkpoints",
+    Text = "Teleport Arunika [MT]",
     Func = function()
         if not canTeleport() then return end
         local checkpoints = {
@@ -800,10 +800,69 @@ RightDropdownGroupBox2:AddButton({
     DoubleClick = false,
     Tooltip = "Tween ke semua CP Arunika (berhenti 1 menit tiap CP)",
     DisabledTooltip = "Button ini disabled!",
+    Disabled = true,
+    Visible = true,
+    Risky = true,
+})
+
+-- Mount Arunika Teleport
+RightDropdownGroupBox2:AddButton({
+    Text = "Teleport Mount Sibuatan [SAFE]",
+    Func = function()
+        if not canTeleport() then return end
+
+        local checkpoints = {
+            CFrame.new(9075.838867, 5892.380371, 2043.035034),
+            CFrame.new(9187.802734, 6219.541504, 1985.755371),
+            CFrame.new(9063.084961, 6500.786621, 1827.403320),
+            CFrame.new(8694.529297, 6532.208984, 1293.362061),
+            CFrame.new(8395.609375, 6560.329590, 1138.290161),
+            CFrame.new(7993.466309, 6610.980957, 1017.939392),
+            CFrame.new(7141.187988, 6776.380371, 376.131805),
+            CFrame.new(6572.685059, 6969.239746, 255.105209),
+            CFrame.new(6040.210449, 6968.380371, 253.225739),
+            CFrame.new(4872.932617, 7148.380859, 680.238403),
+            CFrame.new(5395.685547, 8112.185547, 2207.719971),
+            CFrame.new(-2065.570557, 1870.457275, -275.846008), -- Summit
+        }
+
+        local player = game.Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+
+        for i, pos in ipairs(checkpoints) do
+            teleportTo(pos)
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "SIRENHub",
+                Text = "Teleported to Arunika CP " .. i,
+                Duration = 5
+            })
+
+            if i < #checkpoints then
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "SIRENHub",
+                    Text = "Arrived at CP " .. i .. ". Waiting 1 minute...",
+                    Duration = 5
+                })
+                task.wait(60) -- tunggu 1 menit
+            else
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "SIRENHub",
+                    Text = "Arrived at Summit!",
+                    Duration = 5
+                })
+            end
+        end
+    end,
+    DoubleClick = false,
+    Tooltip = "Teleport ke semua CP Arunika (berhenti 1 menit tiap CP)",
+    DisabledTooltip = "Button ini disabled!",
     Disabled = false,
     Visible = true,
     Risky = false,
 })
+
 
 -- Mount Lembayana
 RightDropdownGroupBox:AddDropdown("LembayanaDropdown", {
