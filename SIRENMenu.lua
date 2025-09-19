@@ -871,21 +871,22 @@ RightDropdownGroupBox2:AddButton({
                 Text = "Teleported to Sibuatan CP " .. i,
                 Duration = 5
             })
-
             if i < #checkpoints then
+            for t = 60, 1, -1 do
                 game.StarterGui:SetCore("SendNotification", {
                     Title = "SIRENHub",
-                    Text = "Arrived at CP " .. i .. ". Waiting 1 minute...",
-                    Duration = 5
+                    Text = "Arrived at CP " .. i .. ". Waiting " .. t .. "s...",
+                    Duration = 60 -- biar tetap muncul 1 menit
                 })
-                task.wait(60) -- tunggu 1 menit
-            else
-                game.StarterGui:SetCore("SendNotification", {
-                    Title = "SIRENHub",
-                    Text = "Arrived at Summit!",
-                    Duration = 5
-                })
+                task.wait(1)
             end
+        else
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "SIRENHub",
+                Text = "Arrived at Summit!",
+                Duration = 10
+            })
+        end
         end
     end,
     DoubleClick = false,
