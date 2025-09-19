@@ -731,6 +731,35 @@ RightDropdownGroupBox:AddDropdown("AtinDropdown", {
     end,
 })
 
+-- Mount Sumbing
+RightDropdownGroupBox:AddDropdown("SumbingDropdown", {
+    Values = {"Spawn", "Pos 1", "Pos 2", "Pos 3", "Pos 4", "Summit"},
+    Default = 1,
+    Text = "Mount Sumbing",
+    Tooltip = "Teleport Mount Sumbing",
+    Callback = function(Value)
+        if not canTeleport() then return end
+        if Value == "Spawn" then
+            teleportTo(CFrame.new(-335.664490, 5.006538, 28.927597))
+        elseif Value == "Pos 1" then
+            teleportTo(CFrame.new(-227.561844, 441.000031, 2143.701904))
+        elseif Value == "Pos 2" then
+            teleportTo(CFrame.new(-426.891113, 848.999939, 3205.731934))
+        elseif Value == "Pos 3" then
+            teleportTo(CFrame.new(39.400356, 1268.999878, 4040.747314))
+        elseif Value == "Pos 4" then
+            teleportTo(CFrame.new(-1140.206177, 1552.999878, 4899.074219))
+        elseif Value == "Summit" then
+            teleportTo(CFrame.new(-939.110962, 1926.974365, 5407.520508))
+        end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "SIRENHub",
+            Text = "Teleported to " .. Value,
+            Duration = 3
+        })
+    end,
+})
+
 -- Mount Merapi
 RightDropdownGroupBox:AddDropdown("MerapiDropdown", {
     Values = {"Spawn", "Summit"},
