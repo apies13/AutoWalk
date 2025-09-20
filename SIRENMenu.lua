@@ -475,14 +475,13 @@ local AutoRejoin = RightGroupBox:AddButton({
             local JobId = game.JobId
             local PrivateId = game.PrivateServerId
 
-            -- Jika private server tersedia, coba masuk private server itu dulu
+            -- Jika private server tersedia, langsung teleport pakai Teleport biasa
             if PrivateId and PrivateId ~= "" then
                 local ok, e = pcall(function()
-                    -- TeleportToPrivateServer biasanya menerima table pemain sebagai argumen
-                    TeleportService:TeleportToPrivateServer(PlaceId, PrivateId, { player })
+                    TeleportService:Teleport(PlaceId, player)
                 end)
                 if not ok then
-                    warn("[AutoRejoin] TeleportToPrivateServer gagal:", e)
+                    warn("[AutoRejoin] Teleport Private gagal:", e)
                 end
                 return
             end
