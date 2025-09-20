@@ -466,6 +466,38 @@ local InvisibleToggle = RightGroupBox:AddToggle("InvisibleToggle", {
     end,
 })
 
+local AutoRejoin = RightGroupBox:AddButton({
+    Text = "Auto Rejoin",
+    Func = function()
+        local success, err = pcall(function()
+            player.OnTeleport:Connect(function(State)
+                if State == Enum.TeleportState.Failed then
+                    task.wait(3)
+                    TeleportService:Teleport(game.PlaceId, player)
+                end
+            end)
+
+            player.OnTeleportFailed:Connect(function()
+                task.wait(3)
+                TeleportService:Teleport(game.PlaceId, player)
+            end)
+
+            Library:Notify("Auto Rejoin Activated!", 5)
+        end)
+        if not success then
+            warn("[SIRENHub] Gagal aktifkan Auto Rejoin:", err)
+        end
+    end,
+    DoubleClick = false,
+
+    Tooltip = "Aktifkan Auto Rejoin",
+    DisabledTooltip = "Button ini disabled!",
+
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
+
 local Right2 = Tabs.Main:AddRightGroupbox("Mobile", "tablet-smartphone")
 
 local FlyMobile = Right2:AddButton({
@@ -534,6 +566,7 @@ LeftGroupBox:AddDivider()
 -- Teleports
 -- =========================
 local LeftDropdownGroupBox = Tabs.Teleports:AddLeftGroupbox("Teleports 1", "boxes")
+local LeftDropdownGroupBox2 = Tabs.Teleports:AddLeftGroupbox("Mount Sibuatan", "boxes")
 local RightDropdownGroupBox = Tabs.Teleports:AddRightGroupbox("Teleports 2", "boxes")
 local RightDropdownGroupBox2 = Tabs.Teleports:AddRightGroupbox("Tween", "boxes")
 
@@ -619,8 +652,16 @@ LeftDropdownGroupBox:AddDropdown("BaeDropdown", {
     end,
 })
 
+LeftDropdownGroupBox:AddLabel(
+    "• For Mount Atin: You must go to CP 23 first before heading to the Summit.\n" ..
+    "• For Mount Sibuatan: It is recommended to use the Delay option to avoid suspicion.\n" ..
+    "• For Mount Daun: If CP is unavailable, wait approximately 30 seconds after teleporting.\n\n" ..
+    "SIRENHUB 2025",
+    true
+)
+
 -- Mount Sibuatan Anti Delay
-LeftDropdownGroupBox:AddDropdown("SibuatanAntiDelayDropdown", {
+LeftDropdownGroupBox2:AddDropdown("SibuatanAntiDelayDropdown", {
     Values = {"Spawn", "Summit"},
     Default = 1,
     Text = "Mount Sibuatan No Cooldown",
@@ -644,7 +685,7 @@ LeftDropdownGroupBox:AddDropdown("SibuatanAntiDelayDropdown", {
 do
     local cooldown = 50 * 60
     local lastTeleport = 0
-    local CooldownLabel = LeftDropdownGroupBox:AddLabel("Cooldown: Ready ✅")
+    local CooldownLabel = LeftDropdownGroupBox2:AddLabel("Cooldown: Ready ✅")
 
     task.spawn(function()
         while task.wait(1) do
@@ -660,7 +701,7 @@ do
         end
     end)
 
-    LeftDropdownGroupBox:AddDropdown("SibuatanDropdown", {
+    LeftDropdownGroupBox2:AddDropdown("SibuatanDropdown", {
         Values = {"Spawn", "Summit"},
         Default = 1,
         Text = "Mount Sibuatan",
@@ -696,13 +737,96 @@ do
     })
 end
 
-LeftDropdownGroupBox:AddLabel(
-    "• For Mount Atin: You must go to CP 23 first before heading to the Summit.\n" ..
-    "• For Mount Sibuatan: It is recommended to use the Delay option to avoid suspicion.\n" ..
-    "• For Mount Daun: If CP is unavailable, wait approximately 30 seconds after teleporting.\n\n" ..
-    "SIRENHUB 2025",
-    true
-)
+LeftDropdownGroupBox2:AddButton({
+    Text = "Teleport Mount Sibuatan [SAFE]",
+    Func = function()
+        if not canTeleport() then return end
+
+        local checkpoints = {
+        CFrame.new(-310.764954, 158.360062, -325.530396),   -- CP 1
+        CFrame.new(-732.508362, 592.381042, -121.523430),
+        CFrame.new(-885.880737, 996.181091, -205.180374),
+        CFrame.new(-1636.254150, 996.466370, 285.153931),
+        CFrame.new(-1646.729736, 998.474792, 633.988892),
+        CFrame.new(-1637.100220, 1116.381104, 2151.866699),
+        CFrame.new(-520.828979, 1452.381104, 3279.551514),
+        CFrame.new(-707.082031, 1896.381104, 2382.717773),
+        CFrame.new(-861.456299, 1944.181152, 2070.890137),
+        CFrame.new(-868.243286, 2104.380859, 1669.271851),
+        CFrame.new(-900.984253, 2344.380615, 1442.063599),
+        CFrame.new(-848.414551, 2768.380859, 1505.385498),
+        CFrame.new(-616.392334, 3288.380615, 1919.596558),
+        CFrame.new(-238.524368, 3407.580566, 2577.954102),
+        CFrame.new(308.427917, 3544.380859, 3045.345703),
+        CFrame.new(441.245544, 3600.380859, 3563.178467),
+        CFrame.new(910.216248, 3668.380615, 4150.360840),
+        CFrame.new(1422.986206, 3908.380615, 4997.069824),
+        CFrame.new(1667.531006, 4288.380859, 5191.079102),
+        CFrame.new(1722.025391, 4472.180664, 5171.277832),
+        CFrame.new(1866.061401, 4656.327148, 5199.937012),
+        CFrame.new(1902.885742, 4964.380371, 5157.607910),
+        CFrame.new(2848.757568, 5076.380371, 5242.172363),
+        CFrame.new(3460.068115, 5244.380859, 5122.323730),
+        CFrame.new(4577.907227, 5480.380371, 5265.410645),
+        CFrame.new(4880.519043, 3988.052490, 5179.996582),
+        CFrame.new(5829.640137, 4000.136719, 5741.727051),
+        CFrame.new(6631.949707, 4225.780273, 5577.625000),
+        CFrame.new(7477.726562, 4225.587402, 5306.537109),
+        CFrame.new(8213.287109, 4332.380371, 4893.226562),
+        CFrame.new(8694.331055, 4484.380371, 4544.761230),
+        CFrame.new(8786.682617, 4540.380859, 4346.211914),
+        CFrame.new(9200.066406, 5076.380859, 2465.798828),
+        CFrame.new(9190.503906, 5324.114746, 2461.249512),
+        CFrame.new(9075.838867, 5892.380371, 2043.035034),   -- CP 36
+        CFrame.new(9187.802734, 6219.541504, 1985.755371),
+        CFrame.new(9063.084961, 6500.786621, 1827.403320),
+        CFrame.new(8694.529297, 6532.208984, 1293.362061),
+        CFrame.new(8395.609375, 6560.329590, 1138.290161),
+        CFrame.new(7141.187988, 6776.380371, 376.131805),
+        CFrame.new(6572.685059, 6969.239746, 255.105209),
+        CFrame.new(6040.210449, 6968.380371, 253.225739),
+        CFrame.new(4872.932617, 7148.380859, 680.238403),
+        CFrame.new(-2065.570557, 1870.457275, -275.846008), -- Summit
+    }
+
+
+        local player = game.Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+
+        for i, pos in ipairs(checkpoints) do
+            teleportTo(pos)
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "SIRENHub",
+                Text = "Teleported to Sibuatan CP " .. i,
+                Duration = 5
+            })
+            if i < #checkpoints then
+            for t = 60, 1, -1 do
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "SIRENHub",
+                    Text = "Arrived at CP " .. i .. ". Waiting " .. t .. "s...",
+                    Duration = 60 -- biar tetap muncul 1 menit
+                })
+                task.wait(1)
+            end
+        else
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "SIRENHub",
+                Text = "Arrived at Summit!",
+                Duration = 10
+            })
+        end
+        end
+    end,
+    DoubleClick = false,
+    Tooltip = "Teleport ke semua CP Arunika (berhenti 1 menit tiap CP)",
+    DisabledTooltip = "Button ini disabled!",
+    Disabled = false,
+    Visible = true,
+    Risky = false,
+})
 
 
 -- =========================
@@ -835,96 +959,6 @@ RightDropdownGroupBox2:AddButton({
 })
 
 -- Mount Arunika Teleport
-RightDropdownGroupBox2:AddButton({
-    Text = "Teleport Mount Sibuatan [SAFE]",
-    Func = function()
-        if not canTeleport() then return end
-
-        local checkpoints = {
-        CFrame.new(-310.764954, 158.360062, -325.530396),   -- CP 1
-        CFrame.new(-732.508362, 592.381042, -121.523430),
-        CFrame.new(-885.880737, 996.181091, -205.180374),
-        CFrame.new(-1636.254150, 996.466370, 285.153931),
-        CFrame.new(-1646.729736, 998.474792, 633.988892),
-        CFrame.new(-1637.100220, 1116.381104, 2151.866699),
-        CFrame.new(-520.828979, 1452.381104, 3279.551514),
-        CFrame.new(-707.082031, 1896.381104, 2382.717773),
-        CFrame.new(-861.456299, 1944.181152, 2070.890137),
-        CFrame.new(-868.243286, 2104.380859, 1669.271851),
-        CFrame.new(-900.984253, 2344.380615, 1442.063599),
-        CFrame.new(-848.414551, 2768.380859, 1505.385498),
-        CFrame.new(-616.392334, 3288.380615, 1919.596558),
-        CFrame.new(-238.524368, 3407.580566, 2577.954102),
-        CFrame.new(308.427917, 3544.380859, 3045.345703),
-        CFrame.new(441.245544, 3600.380859, 3563.178467),
-        CFrame.new(910.216248, 3668.380615, 4150.360840),
-        CFrame.new(1422.986206, 3908.380615, 4997.069824),
-        CFrame.new(1667.531006, 4288.380859, 5191.079102),
-        CFrame.new(1722.025391, 4472.180664, 5171.277832),
-        CFrame.new(1866.061401, 4656.327148, 5199.937012),
-        CFrame.new(1902.885742, 4964.380371, 5157.607910),
-        CFrame.new(2848.757568, 5076.380371, 5242.172363),
-        CFrame.new(3460.068115, 5244.380859, 5122.323730),
-        CFrame.new(4577.907227, 5480.380371, 5265.410645),
-        CFrame.new(4880.519043, 3988.052490, 5179.996582),
-        CFrame.new(5829.640137, 4000.136719, 5741.727051),
-        CFrame.new(6631.949707, 4225.780273, 5577.625000),
-        CFrame.new(7477.726562, 4225.587402, 5306.537109),
-        CFrame.new(8213.287109, 4332.380371, 4893.226562),
-        CFrame.new(8694.331055, 4484.380371, 4544.761230),
-        CFrame.new(8786.682617, 4540.380859, 4346.211914),
-        CFrame.new(9200.066406, 5076.380859, 2465.798828),
-        CFrame.new(9190.503906, 5324.114746, 2461.249512),
-        CFrame.new(9075.838867, 5892.380371, 2043.035034),   -- CP 36
-        CFrame.new(9187.802734, 6219.541504, 1985.755371),
-        CFrame.new(9063.084961, 6500.786621, 1827.403320),
-        CFrame.new(8694.529297, 6532.208984, 1293.362061),
-        CFrame.new(8395.609375, 6560.329590, 1138.290161),
-        CFrame.new(7141.187988, 6776.380371, 376.131805),
-        CFrame.new(6572.685059, 6969.239746, 255.105209),
-        CFrame.new(6040.210449, 6968.380371, 253.225739),
-        CFrame.new(4872.932617, 7148.380859, 680.238403),
-        CFrame.new(-2065.570557, 1870.457275, -275.846008), -- Summit
-    }
-
-
-        local player = game.Players.LocalPlayer
-        local char = player.Character or player.CharacterAdded:Wait()
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        if not hrp then return end
-
-        for i, pos in ipairs(checkpoints) do
-            teleportTo(pos)
-            game.StarterGui:SetCore("SendNotification", {
-                Title = "SIRENHub",
-                Text = "Teleported to Sibuatan CP " .. i,
-                Duration = 5
-            })
-            if i < #checkpoints then
-            for t = 60, 1, -1 do
-                game.StarterGui:SetCore("SendNotification", {
-                    Title = "SIRENHub",
-                    Text = "Arrived at CP " .. i .. ". Waiting " .. t .. "s...",
-                    Duration = 60 -- biar tetap muncul 1 menit
-                })
-                task.wait(1)
-            end
-        else
-            game.StarterGui:SetCore("SendNotification", {
-                Title = "SIRENHub",
-                Text = "Arrived at Summit!",
-                Duration = 10
-            })
-        end
-        end
-    end,
-    DoubleClick = false,
-    Tooltip = "Teleport ke semua CP Arunika (berhenti 1 menit tiap CP)",
-    DisabledTooltip = "Button ini disabled!",
-    Disabled = false,
-    Visible = true,
-    Risky = false,
-})
 
 
 -- Mount Lembayana
