@@ -66,6 +66,7 @@ local Tabs = {
     local TweenService = game:GetService("TweenService")
     local Players = game:GetService("Players")
     local RunService = game:GetService("RunService")
+    local TeleportService = game:GetService("TeleportService")
     local player = Players.LocalPlayer
     local Player = Players.LocalPlayer
     local Character = Player.Character or Player.CharacterAdded:Wait()
@@ -470,20 +471,53 @@ local AutoRejoin = RightGroupBox:AddButton({
     Text = "Auto Rejoin",
     Func = function()
         local success, err = pcall(function()
+            local PlaceId = game.PlaceId
+            local JobId = game.JobId
+            local PrivateId = game.PrivateServerId
+
+            local function doRejoin()
+                if PrivateId and PrivateId ~= "" then
+                    -- Balik ke private server
+                    TeleportService:TeleportToPrivateServer(PlaceId, PrivateId, {player})
+                    return
+                end
+
+                if #Players:GetPlayers() <= 1 then
+                    -- Kalau sendirian → kick & teleport ulang ke place
+                    player:Kick("\nRejoining...")
+                    task.wait(1)
+                    TeleportService:Teleport(PlaceId, player)
+                    return
+                end
+
+                -- Kalau server rame → coba balik ke JobId (instance yang sama)
+                local ok, err2 = pcall(function()
+                    TeleportService:TeleportToPlaceInstance(PlaceId, JobId, player)
+                end)
+                if not ok then
+                    warn("[AutoRejoin] Gagal teleport ke JobId:", err2)
+                    -- fallback: public server
+                    TeleportService:Teleport(PlaceId, player)
+                end
+            end
+
+            -- Saat teleport gagal
             player.OnTeleport:Connect(function(State)
                 if State == Enum.TeleportState.Failed then
                     task.wait(3)
-                    TeleportService:Teleport(game.PlaceId, player)
+                    doRejoin()
                 end
             end)
 
+            -- Callback tambahan kalau teleport error
             player.OnTeleportFailed:Connect(function()
                 task.wait(3)
-                TeleportService:Teleport(game.PlaceId, player)
+                doRejoin()
             end)
 
             Library:Notify("Auto Rejoin Activated!", 5)
         end)
+
         if not success then
             warn("[SIRENHub] Gagal aktifkan Auto Rejoin:", err)
         end
