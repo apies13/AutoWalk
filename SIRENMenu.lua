@@ -468,65 +468,64 @@ local InvisibleToggle = RightGroupBox:AddToggle("InvisibleToggle", {
 })
 
 local AutoRejoin = RightGroupBox:AddButton({
-    Text = "Auto Rejoin All",
+    Text = "Auto Rejoin All [TESTED]",
     Func = function()
         local success, err = pcall(function()
             local PlaceId = game.PlaceId
             local JobId = game.JobId
             local PrivateId = game.PrivateServerId
 
-            local function doRejoin()
-                if PrivateId and PrivateId ~= "" then
-                    -- Balik ke private server
-                    TeleportService:TeleportToPrivateServer(PlaceId, PrivateId, {player})
-                    return
-                end
-
-                if #Players:GetPlayers() <= 1 then
-                    -- Kalau sendirian → kick & teleport ulang ke place
-                    player:Kick("\nRejoining...")
-                    task.wait(1)
-                    TeleportService:Teleport(PlaceId, player)
-                    return
-                end
-
-                -- Kalau server rame → coba balik ke JobId (instance yang sama)
-                local ok, err2 = pcall(function()
-                    TeleportService:TeleportToPlaceInstance(PlaceId, JobId, player)
+            -- Jika private server tersedia, coba masuk private server itu dulu
+            if PrivateId and PrivateId ~= "" then
+                local ok, e = pcall(function()
+                    -- TeleportToPrivateServer biasanya menerima table pemain sebagai argumen
+                    TeleportService:TeleportToPrivateServer(PlaceId, PrivateId, { player })
                 end)
                 if not ok then
-                    warn("[AutoRejoin] Gagal teleport ke JobId:", err2)
-                    -- fallback: public server
-                    TeleportService:Teleport(PlaceId, player)
+                    warn("[AutoRejoin] TeleportToPrivateServer gagal:", e)
                 end
+                return
             end
 
-            -- Saat teleport gagal
-            player.OnTeleport:Connect(function(State)
-                if State == Enum.TeleportState.Failed then
-                    task.wait(3)
-                    doRejoin()
+            -- Jika sendirian di server -> kick lalu teleport ke Place (rejoin)
+            if #Players:GetPlayers() <= 1 then
+                pcall(function() player:Kick("\nRejoining...") end)
+                task.wait(1)
+                local ok2, e2 = pcall(function()
+                    TeleportService:Teleport(PlaceId, player)
+                end)
+                if not ok2 then
+                    warn("[AutoRejoin] Teleport ke Place gagal:", e2)
                 end
-            end)
+                return
+            end
 
-            -- Callback tambahan kalau teleport error
-            player.OnTeleportFailed:Connect(function()
-                task.wait(3)
-                doRejoin()
+            -- Jika server ramai -> coba teleport ke instance yang sama (JobId)
+            local ok3, e3 = pcall(function()
+                -- beberapa lingkungan menerima player langsung; jika perlu, ubah jadi {player}
+                TeleportService:TeleportToPlaceInstance(PlaceId, JobId, player)
             end)
-
-            Library:Notify("Auto Rejoin Activated!", 5)
+            if not ok3 then
+                warn("[AutoRejoin] TeleportToPlaceInstance gagal:", e3)
+                -- fallback ke public place
+                local ok4, e4 = pcall(function()
+                    TeleportService:Teleport(PlaceId, player)
+                end)
+                if not ok4 then
+                    warn("[AutoRejoin] Fallback Teleport gagal:", e4)
+                end
+            end
         end)
 
         if not success then
             warn("[SIRENHub] Gagal aktifkan Auto Rejoin:", err)
+        else
+            Library:Notify("Auto Rejoin Activated!", 5)
         end
     end,
     DoubleClick = false,
-
     Tooltip = "Aktifkan Auto Rejoin",
     DisabledTooltip = "Button ini disabled!",
-
     Disabled = false,
     Visible = true,
     Risky = false,
