@@ -468,7 +468,7 @@ local InvisibleToggle = RightGroupBox:AddToggle("InvisibleToggle", {
 })
 
 local AutoRejoin = RightGroupBox:AddButton({
-    Text = "Auto Rejoin",
+    Text = "Auto Rejoin All",
     Func = function()
         local success, err = pcall(function()
             local PlaceId = game.PlaceId
